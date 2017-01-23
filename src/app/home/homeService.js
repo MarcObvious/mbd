@@ -6,7 +6,7 @@ angular.module('homeService', [])
                     if (!extra_route) {
                         extra_route = '';
                     }
-                    return $resource(API_URL + '/orders' + extra_route, {}, {
+                    return $resource(API_URL + '/' + extra_route, {}, {
                         query: {
                             timeout: 15000
                         },
@@ -22,7 +22,7 @@ angular.module('homeService', [])
                 },
                 getHomeData2: function (params) {
                     var def = $q.defer();
-                    this.api().get(params, {}, function (data) {
+                    this.api('orders').get(params, {}, function (data) {
                         def.resolve(data.data);
                     }, function (err) {
                         def.reject(err);
@@ -44,7 +44,16 @@ angular.module('homeService', [])
                 },
                 getOrdersByDelivery: function (params) {
                     var def = $q.defer();
-                    this.api().get(params, {}, function (data) {
+                    this.api('orders').get(params, {}, function (data) {
+                        def.resolve(data.data);
+                    }, function (err) {
+                        def.reject(err);
+                    });
+                    return def.promise;
+                },
+                getOrder: function (id_order) {
+                    var def = $q.defer();
+                    this.api('order_detail/'+id_order).get({}, {}, function (data) {
                         def.resolve(data.data);
                     }, function (err) {
                         def.reject(err);

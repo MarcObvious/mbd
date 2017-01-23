@@ -112,13 +112,22 @@
             };
 
 
-            $scope.openOrder = function (orderData) {
+            $scope.openOrder = function (id_order) {
                 $scope.modalInstance = $uibModal.open({
                     templateUrl: 'home/singleOrder.modal.tpl.html',
                     size: 'lg',
                     controller: 'singleOrder',
                     resolve: {
-                        orderData: orderData
+                        orderData:  (['homeService', '$q', '$log',
+                            function (homeService, $q, $log) {
+                                var def = $q.defer();
+                                homeService.getOrder(id_order).then(function(data){
+                                    def.resolve(data[0]);
+                                }, function (err) {
+                                    def.reject(err);
+                                });
+                                return def.promise;
+                            }])
                     }
                 });
                 $scope.modalInstance.result.then(function () {
@@ -131,10 +140,22 @@
             init();
 
         }]);
-    app.controller('singleOrder', ['$scope', '$uibModalInstance', 'orderData',
-        function ($scope, $uibModalInstance, orderData) {
+    app.controller('singleOrder', ['$scope', '$uibModalInstance', 'orderData','NgMap','$timeout',
+        function ($scope, $uibModalInstance, orderData, NgMap,$timeout) {
             var init = function (){
                 $scope.orderData = orderData;
+                console.log(orderData);
+                $timeout(function(){
+                    //any code in here will automatically have an apply run afterwards
+                    NgMap.getMap().then(function(map) {
+                        $scope.map = map;
+                        console.log(map.getCenter());
+                        console.log('markers', map.markers);
+                        console.log('shapes', map.shapes);
+
+                    });
+                });
+
             };
             init();
 

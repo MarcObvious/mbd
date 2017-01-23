@@ -1,24 +1,47 @@
 <div>
     <div class="modal-header">
-        <h3 class="modal-title">Detalle de pedido</h3>
+        <h3 class="modal-title">Detalle del pedido <strong>{{orderData.id_order}}</strong></h3>
     </div>
 
     <div class="modal-body" >
         <div class="panel-body">
-            <div class="head-p">
-                <p><strong>ID: {{orderData.id}}</strong>
-                <div ng-class="{'text-success': orderData.status.code==1, 'text-danger': orderData.status.code==2, 'text-warning': orderData.status.code==3}">
-                    {{orderData.status.text}} <i class="fa fa-clock-o fa-fw"></i>
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="google-maps">
+                            <ng-map class="gmap" zoom="14" center="[41.390205, 2.154007]" >
+                                <!-- <marker position=“[40.6892,-74.0444]” />-->
+                            </ng-map>
+                        </div>
+                    </div>
                 </div>
-                </p>
             </div>
-            <p><strong>{{orderData.destinatario.dir.street}}</strong> {{orderData.destinatario.dir.city}}</p>
-            <p>{{orderData.destinatario.dir.cp}}</p>
         </div>
-        <!-- /.panel-body -->
+        <div class="col-lg-12">
+            <div class="col-lg-6">
+                <p>Address: {{orderData.address}}</p>
+            </div>
+            <div class="col-lg-6"></div>
+            <div class="head-p">
 
-        <!-- /.panel -->
 
+                    City: {{orderData.city}}
+                    Comments: {{orderData.comments}}
+                    Company: {{orderData.company}}
+                    Delivery date: {{orderData.delivery_date}}
+                    Delivery State: {{orderData.delivery_state}}
+
+                    <!--   <div ng-class="{'text-success': orderData.status.code==1, 'text-danger': orderData.status.code==2, 'text-warning': orderData.status.code==3}">
+                           {{orderData.status.text}} <i class="fa fa-clock-o fa-fw"></i>
+                       </div>-->
+
+            </div>
+        </div>
     </div>
+    <!-- /.panel-body -->
+
+    <!-- /.panel -->
+
+</div>
 </div>
 
