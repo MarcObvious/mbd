@@ -1,0 +1,44 @@
+
+<div class="navbar-default sidebar" role="navigation">
+    <div class="sidebar-nav navbar-collapse">
+        <img src="../../assets/logo1.png" width="250px" height="auto">
+        <ul class="nav in" id="side-menu">
+
+            <login-box></login-box>
+            <sidebar-search></sidebar-search>
+
+            <li ng-class="{active: collapseVar==1}">
+
+                <a href="" ng-click="check(1)" class="head-text">Filtrar por:<span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level" collapse="collapseVar!=1">
+                    <li ui-sref-active="active">
+                        <a ui-sref="root.home">Estado</a>
+                    </li>
+                    <li ui-sref-active="active">
+                        <a ui-sref="root.home">Repartidor</a>
+                    </li>
+                   <!-- <li ui-sref-active="active">
+                        <a ui-sref="root.scheduler"><i class="fa fa-table"></i> Programar PUSH</a>
+                    </li>-->
+                    <!--<li ui-sref-active="active">
+                        <a ui-sref="root.devicetoken"><i class="fa fa-tablet"></i> Dev. Tokens</a>
+                    </li>-->
+
+                </ul>
+            </li>
+            <li ng-class="{active: collapseVar==2}">
+                <a href="" ng-click="check(2)" class="head-text">Histórico:<span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level" collapse="collapseVar!=2">
+                    <li ui-sref-active="active">
+                        <a ui-sref="root.home">Entregas</a>
+                    </li>
+                    <li ui-sref-active="active">
+                        <a ui-sref="root.home">Incidéncias</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>
+
+

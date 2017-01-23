@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html ng-app="mbd" ng-controller="AppController">
+<head>
+    <!-- Base href to remove hashtag from URL -->
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <meta charset="UTF-8">
+    <base href="/">
+
+    <title ng-bind="pageTitle"></title>
+
+    <!-- Googe Maps && API key -->
+    <script src="http://maps.google.com/maps/api/js?key=AIzaSyDf8AUl4z8UJg2BB5gmyoCtefGNl9OBnOw"></script>
+
+    <!-- Font awesome -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+    <!-- compiled CSS --><% styles.forEach( function ( file ) { %>
+    <link rel="stylesheet" type="text/css" href="<%= file %>" /><% }); %>
+
+
+
+    <!-- compiled JavaScript --><% scripts.forEach( function ( file ) { %>
+    <script type="text/javascript" src="<%= file %>"></script><% }); %>
+
+</head>
+
+<body>
+<!-- <div class="container menu" ui-view="main"></div> -->
+<div id="wrapper">
+    <!-- Navigation -->
+    <sidebar></sidebar>
+    <!-- /.navbar-top-links -->
+
+    <!-- /.navbar-static-side -->
+    <div id="page-wrapper" style="min-height: 561px;">
+        <div ui-view="container"></div>
+    </div>
+</div>
+
+</body>
+</html>

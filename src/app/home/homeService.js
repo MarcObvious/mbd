@@ -1,0 +1,69 @@
+angular.module('homeService', [])
+    .factory('homeService', ['$resource', '$q', '$log',
+        function ($resource, $q, $log) {
+            return {
+                api: function (extra_route) {
+                    if (!extra_route) {
+                        extra_route = '';
+                    }
+                    return $resource(API_URL + '/orders' + extra_route, {}, {
+                        query: {
+                            timeout: 15000
+                        },
+                        save: {
+                            timeout: 15000,
+                            method: 'POST'
+                        },
+                        get: {
+                            timeout: 15000,
+                            method: 'GET'
+                        }
+                    });
+                },
+                getHomeData2: function (params) {
+                    var def = $q.defer();
+                    this.api().get(params, {}, function (data) {
+                        def.resolve(data.data);
+                    }, function (err) {
+                        def.reject(err);
+                    });
+                    return def.promise;
+                },
+                getAllOrders: function (params) {
+                    var def = $q.defer();
+                    this.getOrdersByDelivery(params).then(function(data){
+                        this.convertOrdersByDeliveryToOrders(data).then(function(orders){
+                            def.resolve(orders);
+                        });
+                    });
+                    /*
+                     this.api().get(params, {}, function (data) {
+
+                     */
+                    return def.promise;
+                },
+                getOrdersByDelivery: function (params) {
+                    var def = $q.defer();
+                    this.api().get(params, {}, function (data) {
+                        def.resolve(data.data);
+                    }, function (err) {
+                        def.reject(err);
+                    });
+                    return def.promise;
+                },
+                convertOrdersByDeliveryToOrders: function (obds) {
+                    var orders = [];
+                    angular.forEach(obds, function(obd) {
+                        if (obd.orders.length !== 0){
+                            angular.forEach(obd.orders, function(order) {
+                                orders.push(order);
+                            });
+                        }
+                    });
+                    return orders;
+                }
+            };
+        }]);
+
+
+
