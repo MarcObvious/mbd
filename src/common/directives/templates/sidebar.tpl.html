@@ -12,10 +12,10 @@
                 <a href="" ng-click="check(1)" class="head-text">Filtrar por:<span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level" collapse="collapseVar!=1">
                     <li ui-sref-active="active">
-                        <a ui-sref="root.home">Estado</a>
+                        <a ui-sref="root.home.ordergrid({filter_by:status})">Estado</a>
                     </li>
                     <li ui-sref-active="active">
-                        <a ui-sref="root.home">Repartidor</a>
+                        <a ui-sref="root.home.ordergrid({filter_by:status})">Repartidor</a>
                     </li>
                    <!-- <li ui-sref-active="active">
                         <a ui-sref="root.scheduler"><i class="fa fa-table"></i> Programar PUSH</a>
@@ -30,10 +30,10 @@
                 <a href="" ng-click="check(2)" class="head-text">Histórico:<span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level" collapse="collapseVar!=2">
                     <li ui-sref-active="active">
-                        <a ui-sref="root.home">Entregas</a>
+                        <a ui-sref="root.home.ordergrid">Entregas</a>
                     </li>
                     <li ui-sref-active="active">
-                        <a ui-sref="root.home">Incidéncias</a>
+                        <a ui-sref="root.home.ordergrid">Incidéncias</a>
                     </li>
                 </ul>
             </li>

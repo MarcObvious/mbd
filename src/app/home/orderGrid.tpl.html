@@ -1,0 +1,27 @@
+<div class="order-grid row-fluid clearfix">
+    <div class="order-grid-header" >
+        <p>Todos los pedidos <span>({{totalItems }})</span>
+    </div>
+    <div class="col-lg-4 order-grid-element" ng-repeat="orderData in ordersDataSliced">
+        <div class="panel panel-default" ng-click="openOrder(orderData.id_order)">
+            <div class="panel-body">
+                <div class="col-lg-12">
+                    <div class="order-grid-title">
+                        <h3 class="order-grid-order"> ID: #{{orderData.id_order}}</h3>
+                        <h3 class="order-grid-status" ng-class="{'text-success': orderData.delivery_state=='En reparto' , 'text-danger': orderData.delivery_state=='fail', 'text-warning': orderData.delivery_state=='Unknown'}">{{orderData.delivery_state}} <i class="fa fa-map-marker" aria-hidden="true"></i> </h3>
+                    </div>
+                    <div class="order-grid-text">
+                        <p class="order-grid-strong">{{orderData.address}}</p>
+                        <p>{{orderData.zipcode}} {{orderData.city}}</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="col-lg-12">
+        <div class="pull-right home-pagination">
+            <ul uib-pagination total-items="totalItems" ng-model="currentPage" ng-change="pageChanged()"></ul>
+        </div>
+    </div>
+</div>

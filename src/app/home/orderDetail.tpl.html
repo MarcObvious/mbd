@@ -1,0 +1,33 @@
+<div class="order-detail row-fluid clearfix">
+    <div class="order-detail-header" ng-click="goBack()">
+        <p><i class="fa fa-arrow-left"></i> Detalle pedido</p>
+    </div>
+    <div class="panel panel-default">
+
+        <div class="panel-body">
+            <div class="col-lg-12">
+                <div class="order-detail-title">
+                    <h3 class="order-detail-order"> ID: #{{orderData.id_order}}</h3>
+                    <h3 class="order-detail-status" ng-class="{'text-success': orderData.delivery_state=='En reparto' , 'text-danger': orderData.delivery_state=='fail', 'text-warning': orderData.delivery_state=='Unknown'}">{{orderData.delivery_state}} <i class="fa fa-map-marker" aria-hidden="true"></i></h3>
+                </div>
+                <hr>
+                <div class="col-lg-3">
+                    <h4><i class="fa fa-user"></i> Destinatario: </h4>
+                    <p>{{orderData.firstname}} {{orderData.lastname}}</p>
+                    <p class="order-detail-strong">{{orderData.address}}</p>
+                    <p>{{orderData.zipcode}} {{orderData.city}}</p>
+                </div>
+                <div class="col-lg-3">
+                    <h4><i class="fa fa-location-arrow"></i> Repartidor</h4>
+                    <p>{{orderData.mensajero}}</p>
+                </div>
+                <div class="col-lg-6">
+                    <h4><i class="fa fa-info-circle"></i> Observaciones</h4>
+                    <p>{{orderData.comments}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>

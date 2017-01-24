@@ -3,49 +3,9 @@
         function ($stateProvider) {
             $stateProvider
                 .state('root.home', {
-                    url: '/',
+                    url: '',
                     parent: 'root',
-                    resolve: {
-                        homeData: (['homeService', '$q', '$log',
-                            function (homeService, $q, $log) {
-                                $log.info('Home::::ResolveFakeOrders::');
-                                var pedidos = [];
-                                for (var i = Math.floor((Math.random() * 100) + 1); i > 0; --i) {
-                                    var status = { code: Math.floor((Math.random() * 3) + 1)};
-                                    if (status.code === 1) {
-                                        status.text = 'En curso';
-                                    }
-                                    else if (status.code === 2) {
-                                        status.text = 'Pendiente';
-                                    }
-                                    else {
-                                        status.text = 'Incidéncia';
-                                    }
-                                    pedidos.push({
-                                        id: '#' + Math.floor((Math.random() * 1000) + 1),
-                                        destinatario : {
-                                            dir: { street: 'C/' + i, cp: '08050', city:'Barcelona'},
-                                        },
-                                        repartidor: { name: 'Blablabla', id: 1234},
-                                        observaciones: { text: 'blablaba'},
-                                        status: status,
-                                        location: {lat: '54256', lon: '123456'}
-                                    });
-                                }
-                                return pedidos;
-                            }]),
-                        ordersData: (['homeService', '$q', '$log',
-                            function (homeService, $q, $log) {
-                                $log.info('Home::::ResolveOrders::');
-                                var def = $q.defer();
-                                homeService.getOrdersByDelivery().then(function(data){
-                                    def.resolve(homeService.convertOrdersByDeliveryToOrders(data));
-                                }, function (err) {
-                                    def.reject(err);
-                                });
-                                return def.promise;
-                            }])
-                    },
+                    abstract: true,
                     views: {
                         "container@": {
                             controller: 'HomeController',
@@ -55,11 +15,96 @@
                     data: {
                         pageTitle: 'Home'
                     }
+                })
+                .state('root.home.ordergrid', {
+                    url: '/?:{filter_by}',
+                    parent: 'root.home',
+                    resolve: {
+                        ordersData: (['homeService', '$q', '$log','$stateParams',
+                            function (homeService, $q, $log, $stateParams) {
+                                $log.info('Home::::ResolveOrders::');
+                                var def = $q.defer();
+                                var filter_by = ($stateParams.filter_by);
+                                if(!filter_by) {
+                                    homeService.getOrdersByDelivery().then(function(data){
+                                        def.resolve(homeService.convertOrdersByDeliveryToOrders(data));
+                                    }, function (err) {
+                                        def.reject(err);
+                                    });
+                                }
+
+                                return def.promise;
+                            }])
+                    },
+                    views: {
+                        "subcontainer@root.home": {
+                            controller: 'orderGridController',
+                            templateUrl: 'home/orderGrid.tpl.html'
+                        }
+                    },
+                    data: {
+                        pageTitle: 'OrderDetail'
+                    }
+                })
+                .state('root.home.orderdetail', {
+                    url: '/orderDetail/{id_order}',
+                    parent: 'root.home',
+                    resolve: {
+                        orderData: (['homeService', '$q', '$log','$stateParams',
+                            function (homeService, $q, $log, $stateParams) {
+                                $log.info('Home::::ResolveOrderDetail::');
+                                var def = $q.defer();
+                                if($stateParams.id_order){
+                                    homeService.getOrder($stateParams.id_order).then(function(data){
+                                        def.resolve(data[0]);
+                                    }, function (err) {
+                                        def.reject(err);
+                                    });
+                                }
+                                else {
+                                    def.reject();
+                                }
+                                return def.promise;
+                            }])
+                    },
+                    views: {
+                        "subcontainer@root.home": {
+                            controller: 'orderDetailController',
+                            templateUrl: 'home/orderDetail.tpl.html'
+                        }
+                    },
+                    data: {
+                        pageTitle: 'OrderGrid'
+                    }
                 });
         }]);
 
-    app.controller('HomeController', ['$log','$scope','$state','homeData','ordersData','$uibModal', 'NgMap',
-        function ($log, $scope, $state, homeData, ordersData,$uibModal, NgMap) {
+    app.controller('HomeController', ['$log','$scope','$state','$uibModal', 'NgMap',
+        function ($log, $scope, $state,$uibModal, NgMap) {
+
+            var init = function() {
+
+            };
+
+            init();
+        }]);
+
+    app.controller('orderDetailController', ['$log','$scope','$state','orderData',
+        function ($log, $scope, $state, orderData) {
+
+            var init = function() {
+                $scope.orderData = orderData;
+            };
+
+            $scope.goBack = function(){
+              $state.go('root.home.ordergrid');
+            };
+
+            init();
+        }]);
+
+    app.controller('orderGridController', ['$log','$scope','$state','ordersData','$uibModal', 'NgMap',
+        function ($log, $scope, $state, ordersData,$uibModal, NgMap) {
 
             var init = function () {
                 $log.info('App:: Starting HomeController');
@@ -95,14 +140,14 @@
                 console.log($scope.positions);
 
                 $('#loadingWidget').hide();
-/*
-                NgMap.getMap().then(function(map) {
-                    console.log(map.getCenter());
-                    console.log('markers', map.markers);
-                    console.log('shapes', map.shapes);
-                });
+                /*
+                 NgMap.getMap().then(function(map) {
+                 console.log(map.getCenter());
+                 console.log('markers', map.markers);
+                 console.log('shapes', map.shapes);
+                 });
 
-*/
+                 */
                 NgMap.getMap().then(function(map) {
                     $scope.map = map;
                     console.log(map.getCenter());
@@ -113,28 +158,8 @@
 
 
             $scope.openOrder = function (id_order) {
-                $scope.modalInstance = $uibModal.open({
-                    templateUrl: 'home/singleOrder.modal.tpl.html',
-                    size: 'lg',
-                    controller: 'singleOrder',
-                    resolve: {
-                        orderData:  (['homeService', '$q', '$log',
-                            function (homeService, $q, $log) {
-                                var def = $q.defer();
-                                homeService.getOrder(id_order).then(function(data){
-                                    def.resolve(data[0]);
-                                }, function (err) {
-                                    def.reject(err);
-                                });
-                                return def.promise;
-                            }])
-                    }
-                });
-                $scope.modalInstance.result.then(function () {
 
-                }, function () {
-
-                });
+                $state.go('root.home.orderdetail',{id_order:id_order});
             };
 
             init();

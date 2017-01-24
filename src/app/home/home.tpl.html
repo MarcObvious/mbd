@@ -1,40 +1,11 @@
 <div class="row">
     &nbsp;
     <div class="col-lg-12">
-        <div class="panel panel-default">
-            <div class="panel-body">
-                <div class="google-maps">
-                    <ng-map class="gmap" zoom="14" center="[41.390205, 2.154007]" >
-                        <!-- <marker position=“[40.6892,-74.0444]” />-->
-                        <marker ng-repeat="p in positions" position="{{p.pos}}" on-click="map.showInfoWindow('foo', 'custom-marker-'+$index)"></marker>
-                    </ng-map>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-4" ng-repeat="hd in ordersDataSliced">
-        <div class="panel panel-default" ng-click="openOrder(hd.id_order)">
-            <div class="panel-body">
-                <div class="head-p">
-                    <p><strong>ID: {{hd.id_order}}</strong>
+        <maps></maps>
 
-                        <!--           ng-class="{'text-success': hd.status.code==1, 'text-danger': hd.status.code==2, 'text-warning': hd.status.code==3}"-->
-
-                    <div>
-                        {{hd.order_state}} <i class="fa fa-clock-o fa-fw"></i>
-                    </div>
-                    </p>
-                </div>
-                <p><strong>{{hd.pickup_address}}</strong> {{hd.destinatario.city}}</p>
-                <p>{{hd.zipcode}}</p>
-            </div>
-
-        </div>
     </div>
     <div class="col-lg-12">
-        <div class="pull-right home-pagination">
-            <ul uib-pagination total-items="totalItems" ng-model="currentPage" ng-change="pageChanged()"></ul>
-        </div>
+        <div ui-view="subcontainer" id="orderGrid"></div>
     </div>
 </div>
 
