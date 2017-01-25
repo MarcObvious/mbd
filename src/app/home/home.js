@@ -89,22 +89,29 @@
             init();
         }]);
 
-    app.controller('orderDetailController', ['$log','$scope','$state','orderData',
-        function ($log, $scope, $state, orderData) {
+    app.controller('orderDetailController', ['$log','$scope','$state','orderData', '$rootScope',
+        function ($log, $scope, $state, orderData, $rootScope) {
 
             var init = function() {
                 $scope.orderData = orderData;
+                console.log(orderData.lat);
+                console.log(orderData.lng);
+                $scope.positions = {pos:[orderData.lat, orderData.lng]};
+
+                //$scope.positions = [{pos:[41.390205,2.154007],name:1}];
+
+                $rootScope.$emit('positions.positionsChange', {positions: $scope.positions});
             };
 
             $scope.goBack = function(){
-              $state.go('root.home.ordergrid');
+                $state.go('root.home.ordergrid');
             };
 
             init();
         }]);
 
-    app.controller('orderGridController', ['$log','$scope','$state','ordersData','$uibModal', 'NgMap',
-        function ($log, $scope, $state, ordersData,$uibModal, NgMap) {
+    app.controller('orderGridController', ['$log','$scope','$state','ordersData','$uibModal', 'NgMap','$rootScope',
+        function ($log, $scope, $state, ordersData, $uibModal, NgMap, $rootScope) {
 
             var init = function () {
                 $log.info('App:: Starting HomeController');
@@ -137,6 +144,9 @@
                     }
                     console.log(data);
                 });
+
+                $rootScope.$emit('positions.positionsChange', {positions: $scope.positions});
+
                 console.log($scope.positions);
 
                 $('#loadingWidget').hide();
@@ -148,12 +158,12 @@
                  });
 
                  */
-                NgMap.getMap().then(function(map) {
-                    $scope.map = map;
-                    console.log(map.getCenter());
-                    console.log('markers', map.markers);
-                    console.log('shapes', map.shapes);
-                });
+                /*  NgMap.getMap().then(function(map) {
+                 $scope.map = map;
+                 console.log(map.getCenter());
+                 console.log('markers', map.markers);
+                 console.log('shapes', map.shapes);
+                 });*/
             };
 
 
@@ -165,35 +175,55 @@
             init();
 
         }]);
-    app.controller('singleOrder', ['$scope', '$uibModalInstance', 'orderData','NgMap','$timeout',
-        function ($scope, $uibModalInstance, orderData, NgMap,$timeout) {
+    app.controller('singleOrder', ['$scope', '$uibModalInstance', 'orderData','NgMap','$timeout','$rootScope',
+        function ($scope, $uibModalInstance, orderData, NgMap,$timeout, $rootScope) {
             var init = function (){
                 $scope.orderData = orderData;
-                console.log(orderData);
-                $timeout(function(){
-                    //any code in here will automatically have an apply run afterwards
-                    NgMap.getMap().then(function(map) {
-                        $scope.map = map;
-                        console.log(map.getCenter());
-                        console.log('markers', map.markers);
-                        console.log('shapes', map.shapes);
+                console.log(orderData.lat);
+                console.log(orderData.lng);
+                //$scope.positions = {pos:[orderData.lat, orderData.lng]};
 
-                    });
-                });
+                $scope.positions = [{pos:[41.390205,2.154007],name:1}];
+
+                $rootScope.$emit('positions.positionsChange', {positions: $scope.positions});
+
+                /*  $timeout(function(){
+                 //any code in here will automatically have an apply run afterwards
+                 NgMap.getMap().then(function(map) {
+                 $scope.map = map;
+                 console.log(map.getCenter());
+                 console.log('markers', map.markers);
+                 console.log('shapes', map.shapes);
+
+                 });
+                 });*/
 
             };
             init();
 
         }]);
 
-    app.directive('maps',['homeService', function(homeService) {
+    app.directive('maps', [function() {
         return {
             templateUrl:'home/maps.tpl.html',
             restrict: 'E',
-            scope: {
-                mapsData: '='
-            },
-            replace: true
+            replace: true,
+            controller: ('mapsController', ['$scope', '$log', '$rootScope', function($scope, $log, $rootScope) {
+                var init = function() {
+                    $scope.centerMap = [41.390205, 2.154007];
+                    $log.info('Home::::mapsController::');
+                };
+
+                $rootScope.$on('positions.positionsChange', function(event, aValues){
+                    console.log('position changed');
+
+                    $scope.centerMap = aValues.positions.pos ? aValues.positions.pos : [41.390205, 2.154007];
+                    console.log(aValues);
+
+                    $scope.positions = aValues.positions;
+                });
+                init();
+            }])
         };
     }]);
 }(angular.module("mbd.home", [
