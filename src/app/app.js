@@ -48,6 +48,7 @@
     'ngAnimate',
     'globalService',
     'mbd.home',
+    'mbd.auth',
     'ui.bootstrap',
     'templates-app',
     'templates-common',
