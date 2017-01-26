@@ -37,15 +37,15 @@ angular.module('genericDirectives', [])
             replace: true,
         };
     })
-/*
-    .directive('headerNotification',function() {
-        return {
-            templateUrl: 'directives/templates/header-notification.tpl.html',
-            restrict: 'E',
-            replace: true,
-        };
-    })
-*/
+    /*
+     .directive('headerNotification',function() {
+     return {
+     templateUrl: 'directives/templates/header-notification.tpl.html',
+     restrict: 'E',
+     replace: true,
+     };
+     })
+     */
     .directive('notifications',function(){
         return {
             templateUrl:'directives/templates/notifications.tpl.html',
@@ -65,57 +65,97 @@ angular.module('genericDirectives', [])
         };
     })
 
-    .directive('sidebar',['$location','$state',function($location,$state) {
+    .directive('sidebar',['$location','$state','globalService',
+        function($location, $state, globalService) {
+            return {
+                templateUrl:'directives/templates/sidebar.tpl.html',
+                restrict: 'E',
+                replace: true,
+                scope: {
+                },
+                controller:function($scope, $log, $timeout){
+                    $scope.collapseVar = 999;
+                    $scope.multiCollapseVar = 0;
+
+                    var init = function(){
+                        $scope.check(1);
+                        globalService.getSideBarContent().then(function(content){
+                            $scope.sidebarContent = content;
+                        });
+
+                        console.log($scope.sidebarContent);
+                    };
+
+                    $scope.check = function(x){
+
+                        if(x == $scope.collapseVar){
+                            $scope.collapseVar = 0;
+                        } else {
+                            $scope.collapseVar = x;
+                        }
+
+                    };
+
+                    $scope.multiCheck = function(y){
+
+                        if(y == $scope.multiCollapseVar){
+                            $scope.multiCollapseVar = 0;
+                        } else {
+                            $scope.multiCollapseVar = y;
+                        }
+
+                    };
+
+                    init();
+                }
+            };
+        }])
+
+    .directive('maps', [function() {
         return {
-            templateUrl:'directives/templates/sidebar.tpl.html',
+            templateUrl:'home/maps.tpl.html',
             restrict: 'E',
             replace: true,
-            scope: {
-            },
-            controller:function($scope, $log, $timeout){
-                $scope.collapseVar = 999;
-                $scope.multiCollapseVar = 0;
-
-                var init = function(){
-                    $scope.check(1);
+            controller: ('mapsController', ['$scope', '$log', '$rootScope', function($scope, $log, $rootScope) {
+                var init = function() {
+                    $scope.centerMap = [41.390205, 2.154007];
+                    $log.info('Home::::mapsController::');
                 };
 
-                $scope.check = function(x){
+                $rootScope.$on('positions.positionsChange', function(event, aValues){
+                    console.log('position changed');
 
-                    if(x == $scope.collapseVar){
-                        $scope.collapseVar = 0;
-                    } else {
-                        $scope.collapseVar = x;
-                    }
+                    $scope.centerMap = aValues.positions.pos ? aValues.positions.pos : [41.390205, 2.154007];
+                    console.log(aValues);
 
-                };
-
-                $scope.multiCheck = function(y){
-
-                    if(y == $scope.multiCollapseVar){
-                        $scope.multiCollapseVar = 0;
-                    }else{
-                        $scope.multiCollapseVar = y;
-                    }
-
-                };
-
+                    $scope.positions = aValues.positions;
+                });
                 init();
-            }
+            }])
         };
     }])
 
-    .directive('sidebarSearch',function() {
+    .directive('sidebarSearch',['$state', function($state) {
         return {
             templateUrl:'directives/templates/sidebar-search.tpl.html',
             restrict: 'E',
             replace: true,
             scope: {},
             controller:function($scope){
-                $scope.selectedMenu = 'home';
+                var init = function(){
+                    $scope.string_search = '';
+                    $scope.selectedMenu = 'home';
+                };
+
+                $scope.searchF = function () {
+                    $state.go('root.home.orderdetail',{id_order:$scope.string_search});
+                    $scope.string_search = '';
+                };
+
+                init();
             }
         };
-    })
+    }])
 
     .directive('loginBox',function() {
         return {
@@ -157,8 +197,8 @@ angular.module('genericDirectives', [])
         var linker = function(scope, element, attrs) {
             //scope.rootDirectory = 'images/';
             ///$log.debug(element);
-           // angular.element(element).html($compile(getTemplate(scope.content.content_type))(scope));
-           // console.log($compile(markup)(scope));
+            // angular.element(element).html($compile(getTemplate(scope.content.content_type))(scope));
+            // console.log($compile(markup)(scope));
             element.html(getTemplate(scope.content.content_type));
 
             $compile(element.contents())(scope);

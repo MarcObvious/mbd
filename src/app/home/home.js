@@ -17,17 +17,37 @@
                     }
                 })
                 .state('root.home.ordergrid', {
-                    url: '/?:{filter_by}',
+                    url: '/?:{filter_by}/:{id}',
                     parent: 'root.home',
                     resolve: {
                         ordersData: (['homeService', '$q', '$log','$stateParams',
                             function (homeService, $q, $log, $stateParams) {
                                 $log.info('Home::::ResolveOrders::');
                                 var def = $q.defer();
-                                var filter_by = ($stateParams.filter_by);
-                                if(!filter_by) {
-                                    homeService.getOrdersByDelivery().then(function(data){
-                                        def.resolve(homeService.convertOrdersByDeliveryToOrders(data));
+                                var filter_by = $stateParams.filter_by;
+                                var id = $stateParams.id;
+
+                                $log.debug(filter_by);
+                                $log.debug(id);
+
+                               if (filter_by == 'repartidor' && parseInt(id) !== 0) {
+                                    homeService.getOrdersByDeliveryMan({id:id}).then(function(data){
+                                        def.resolve({data: data, filterName:'Pedidos del repartidor ' + id});
+                                    }, function (err) {
+                                        def.reject(err);
+                                    });
+                                }
+                                else if (filter_by == 'estado' && parseInt(id) !== 0) {
+                                    homeService.getOrdersByStatus({id:id}).then(function(data){
+                                        def.resolve({data: data, filterName:'Pedidos en estado ' + id});
+                                    }, function (err) {
+                                        def.reject(err);
+                                    });
+                                }
+                                else {
+                                    homeService.getOrdersByDelivery().then(function (data) {
+                                        var data2 = homeService.convertOrdersByDeliveryToOrders(data);
+                                        def.resolve({data: data2, filterName:'Todos los pedidos'});
                                     }, function (err) {
                                         def.reject(err);
                                     });
@@ -43,7 +63,7 @@
                         }
                     },
                     data: {
-                        pageTitle: 'OrderDetail'
+                        pageTitle: 'Orders'
                     }
                 })
                 .state('root.home.orderdetail', {
@@ -74,13 +94,13 @@
                         }
                     },
                     data: {
-                        pageTitle: 'OrderGrid'
+                        pageTitle: 'OrderDetail'
                     }
                 });
         }]);
 
-    app.controller('HomeController', ['$log','$scope','$state','$uibModal', 'NgMap',
-        function ($log, $scope, $state,$uibModal, NgMap) {
+    app.controller('HomeController', ['$log','$scope','$state', 'NgMap',
+        function ($log, $scope, $state, NgMap) {
 
             var init = function() {
 
@@ -116,13 +136,14 @@
             var init = function () {
                 $log.info('App:: Starting HomeController');
                 $scope.model = {};
-                $scope.model.pageTitle=$state.current.data.pageTitle;
-                $scope.ordersData = ordersData;
+                $scope.model.pageTitle = $state.current.data.pageTitle;
+                $scope.ordersData = ordersData.data;
                 $scope.ordersDataSliced = $scope.ordersData.slice(0, 6);
                 $scope.positions = [{pos:[41.415674,2.160047],name:1}];
 
 
-                $scope.totalItems = ordersData.length;
+                $scope.totalItems = $scope.ordersData.length;
+                $scope.filterBy = ordersData.filterName;
                 $scope.currentPage = 1;
 
                 $scope.setPage = function (pageNo) {
@@ -203,29 +224,7 @@
 
         }]);
 
-    app.directive('maps', [function() {
-        return {
-            templateUrl:'home/maps.tpl.html',
-            restrict: 'E',
-            replace: true,
-            controller: ('mapsController', ['$scope', '$log', '$rootScope', function($scope, $log, $rootScope) {
-                var init = function() {
-                    $scope.centerMap = [41.390205, 2.154007];
-                    $log.info('Home::::mapsController::');
-                };
 
-                $rootScope.$on('positions.positionsChange', function(event, aValues){
-                    console.log('position changed');
-
-                    $scope.centerMap = aValues.positions.pos ? aValues.positions.pos : [41.390205, 2.154007];
-                    console.log(aValues);
-
-                    $scope.positions = aValues.positions;
-                });
-                init();
-            }])
-        };
-    }]);
 }(angular.module("mbd.home", [
     'ui.router',
     'ngAnimate',

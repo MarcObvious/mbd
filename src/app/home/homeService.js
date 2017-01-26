@@ -51,6 +51,25 @@ angular.module('homeService', [])
                     });
                     return def.promise;
                 },
+
+                getOrdersByDeliveryMan: function (params) {
+                    var def = $q.defer();
+                    this.api('orders_by_deliveryman/'+ params.id).get({}, {}, function (data) {
+                        def.resolve(data.data);
+                    }, function (err) {
+                        def.reject(err);
+                    });
+                    return def.promise;
+                },
+                getOrdersByStatus: function (params) {
+                    var def = $q.defer();
+                    this.api('orders_by_deliveryman/'+ params.id).get({}, {}, function (data) {
+                        def.resolve(data.data);
+                    }, function (err) {
+                        def.reject(err);
+                    });
+                    return def.promise;
+                },
                 getOrder: function (id_order) {
                     var def = $q.defer();
                     this.api('order_detail/'+id_order).get({}, {}, function (data) {
@@ -70,7 +89,8 @@ angular.module('homeService', [])
                         }
                     });
                     return orders;
-                }
+                },
+
             };
         }]);
 
