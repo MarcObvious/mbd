@@ -64,7 +64,6 @@ angular.module('globalService', [])
 
                                 if (obd.num_orders){
                                     angular.forEach(obd.orders, function(order) {
-                                        console.log(order);
                                         switch (order.order_state) {
                                             case 'Pago acceptado':
                                                 ++estados.filtro_estado[1].c;
@@ -83,7 +82,7 @@ angular.module('globalService', [])
                         }
                         estados.filtro_estado.push({n: 'Todos los pedidos', c: cpedidos, id:0});
                         estados.filtro_repartidor.push({n: 'Todos los repartidores', c: cpedidos, id:0});
-                        console.log(estados);
+
                         def.resolve(estados);
                     }, function (err) {
                         def.reject(err);

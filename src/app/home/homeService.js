@@ -20,15 +20,6 @@ angular.module('homeService', [])
                         }
                     });
                 },
-                getHomeData2: function (params) {
-                    var def = $q.defer();
-                    this.api('orders').get(params, {}, function (data) {
-                        def.resolve(data.data);
-                    }, function (err) {
-                        def.reject(err);
-                    });
-                    return def.promise;
-                },
                 getAllOrders: function (params) {
                     var def = $q.defer();
                     this.getOrdersByDelivery(params).then(function(data){
@@ -70,9 +61,9 @@ angular.module('homeService', [])
                     });
                     return def.promise;
                 },
-                getOrder: function (id_order) {
+                getOrder: function (params) {
                     var def = $q.defer();
-                    this.api('order_detail/'+id_order).get({}, {}, function (data) {
+                    this.api('order_detail/'+params.id).get({}, {}, function (data) {
                         def.resolve(data.data);
                     }, function (err) {
                         def.reject(err);

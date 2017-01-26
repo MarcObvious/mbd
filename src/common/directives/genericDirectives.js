@@ -82,13 +82,11 @@ angular.module('genericDirectives', [])
                         globalService.getSideBarContent().then(function(content){
                             $scope.sidebarContent = content;
                         });
-
-                        console.log($scope.sidebarContent);
                     };
 
                     $scope.check = function(x){
 
-                        if(x == $scope.collapseVar){
+                        if(x === $scope.collapseVar){
                             $scope.collapseVar = 0;
                         } else {
                             $scope.collapseVar = x;
@@ -98,7 +96,7 @@ angular.module('genericDirectives', [])
 
                     $scope.multiCheck = function(y){
 
-                        if(y == $scope.multiCollapseVar){
+                        if(y === $scope.multiCollapseVar){
                             $scope.multiCollapseVar = 0;
                         } else {
                             $scope.multiCollapseVar = y;
@@ -116,22 +114,20 @@ angular.module('genericDirectives', [])
             templateUrl:'home/maps.tpl.html',
             restrict: 'E',
             replace: true,
-            controller: ('mapsController', ['$scope', '$log', '$rootScope', function($scope, $log, $rootScope) {
-                var init = function() {
-                    $scope.centerMap = [41.390205, 2.154007];
-                    $log.info('Home::::mapsController::');
-                };
+            controller: ('mapsController', ['$scope', '$log', '$rootScope',
+                function($scope, $log, $rootScope) {
+                    var init = function() {
+                        $log.debug('Maps::::mapsController::');
+                        //$scope.centerMap = [41.390205, 2.154007];
+                    };
 
-                $rootScope.$on('positions.positionsChange', function(event, aValues){
-                    console.log('position changed');
+                    $rootScope.$on('positions.positionsChange', function(event, aValues) {
+                        $scope.centerMap = angular.isDefined(aValues.positions[0]) ? aValues.positions[0].pos : [41.390205, 2.154007];
+                        $scope.positions = aValues.positions;
+                    });
 
-                    $scope.centerMap = aValues.positions.pos ? aValues.positions.pos : [41.390205, 2.154007];
-                    console.log(aValues);
-
-                    $scope.positions = aValues.positions;
-                });
-                init();
-            }])
+                    init();
+                }])
         };
     }])
 

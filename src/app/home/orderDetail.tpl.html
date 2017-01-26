@@ -5,7 +5,7 @@
     <div class="panel panel-default">
 
         <div class="panel-body">
-            <div class="col-lg-12">
+            <div ng-if="orderData" class="col-lg-12">
                 <div class="order-detail-title">
                     <h3 class="order-detail-order"> ID: #{{orderData.id_order}}</h3>
                     <h3 class="order-detail-status" ng-class="{'text-success': orderData.delivery_state=='En reparto' , 'text-danger': orderData.delivery_state=='fail', 'text-warning': orderData.delivery_state=='Unknown'}">{{orderData.delivery_state}} <i class="fa fa-map-marker" aria-hidden="true"></i></h3>
@@ -26,6 +26,14 @@
                     <p>{{orderData.comments}}</p>
                 </div>
             </div>
+        </div>
+        <div ng-if="orderData===undefined" class="col-lg-12">
+            <div class="order-detail-header">
+                <i>No hay información para ese pedido</i>
+            </div>
+            &nbsp;
+            &nbsp;
+            &nbsp;
         </div>
     </div>
 
