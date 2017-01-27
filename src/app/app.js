@@ -56,8 +56,6 @@
     'ui.router',
     'cInterceptor',
     'genericDirectives',
-    'chart.js',
-    'ngTable',
     'ngMap'
 
 ])));

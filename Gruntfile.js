@@ -90,19 +90,14 @@ module.exports = function (grunt) {
                 'vendor/jquery/dist/jquery.min.js',
                 'vendor/bootstrap/dist/js/bootstrap.min.js',
                 'vendor/json3/lib/json3.min.js',
-                'vendor/ng-table/dist/ng-table.js',
                 'vendor/ui-select/dist/select.js',
                 'vendor/angular-local-storage/dist/angular-local-storage.js',
-                'vendor/Chart.js/Chart.min.js',
-                'vendor/angular-chart.js/dist/angular-chart.js',
                 'vendor/ngmap/build/scripts/ng-map.min.js'
             ],
             css: [
             ],
             css2: [
-                'vendor/ng-table/dist/ng-table.css',
                 'vendor/fontawesome/css/font-awesome.css',
-                'vendor/angular-chart.js/dist/angular-chart.css'
             ],
             assets: [
             ]

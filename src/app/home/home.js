@@ -113,7 +113,7 @@
                 if (orderData) {
                     $scope.orderData = homeService.classTraductor(orderData);
 
-                    $scope.positions = [{pos:[orderData.lat, orderData.lng], name:0}];
+                    $scope.positions = [{pos:[orderData.lat, orderData.lng], name: 0, state_class: $scope.orderData.state_class}];
                     //$scope.positions = [{pos:[41.390205,2.154007],name:1}];
                     $timeout(function() {
                         $rootScope.$emit('positions.positionsChange', {positions: $scope.positions});
@@ -139,7 +139,7 @@
                 $scope.ordersData = ordersData.data;
                 if (ordersData.data) {
                     $scope.ordersDataSliced = $scope.ordersData.slice(0, 6);
-                    $scope.positions = [{pos: [41.415674, 2.160047], name: 1}];
+                    $scope.positions = [{pos: [41.415674, 2.160047], name: 1, state_class: 'encurso'}];
 
                     $scope.totalItems = $scope.ordersData.length;
 
@@ -147,13 +147,14 @@
                     $scope.numPerPage = 6;
 
                     angular.forEach($scope.ordersData, function (data, index) {
+                        var data2 = homeService.classTraductor(data);
+                        $scope.ordersData[index] = data2;
                         if (data.lat && data.lng) {
-                            $scope.positions.push({pos: [data.lat, data.lng], name: index});
+                            $scope.positions.push({pos: [data2.lat, data2.lng], name: index, state_class: data2.state_class});
                         }
 
-                        $scope.ordersData[index] = homeService.classTraductor(data);
-
                     });
+                    console.log($scope.positions);
 
                     $timeout(function() {
                         $rootScope.$emit('positions.positionsChange', {positions: $scope.positions});
