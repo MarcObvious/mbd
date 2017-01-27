@@ -81,6 +81,24 @@ angular.module('homeService', [])
                     });
                     return orders;
                 },
+                classTraductor: function (orderData) {
+                        switch (orderData.order_state) {
+                            case 'Pago acceptado':
+                                orderData.state_class = 'pendiente';
+                                orderData.state_name = 'Pendiente';
+                                break;
+                            case 'Albarán de entrega impreso.':
+                                orderData.state_class = 'encurso';
+                                orderData.state_name = 'En curso';
+                                break;
+                            default:
+                                orderData.state_class = 'incidencia';
+                                orderData.state_name = 'Incidéncia';
+                                break;
+                        }
+
+                    return orderData;
+                }
 
             };
         }]);

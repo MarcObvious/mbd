@@ -105,19 +105,19 @@
             init();
         }]);
 
-    app.controller('orderDetailController', ['$log','$scope','$state','orderData', '$rootScope','$timeout',
-        function ($log, $scope, $state, orderData, $rootScope, $timeout) {
+    app.controller('orderDetailController', ['$log','$scope','$state','orderData', '$rootScope','$timeout', 'homeService',
+        function ($log, $scope, $state, orderData, $rootScope, $timeout, homeService) {
 
             var init = function() {
                 $scope.orderData = orderData;
                 if (orderData) {
-                    console.log(orderData);
+                    $scope.orderData = homeService.classTraductor(orderData);
+
                     $scope.positions = [{pos:[orderData.lat, orderData.lng], name:0}];
                     //$scope.positions = [{pos:[41.390205,2.154007],name:1}];
                     $timeout(function() {
-                        console.log('now!');
                         $rootScope.$emit('positions.positionsChange', {positions: $scope.positions});
-                    }, 100);
+                    });
                 }
             };
 
@@ -128,8 +128,8 @@
             init();
         }]);
 
-    app.controller('orderGridController', ['$log','$scope','$state','ordersData','$uibModal', 'NgMap','$rootScope','$timeout',
-        function ($log, $scope, $state, ordersData, $uibModal, NgMap, $rootScope, $timeout) {
+    app.controller('orderGridController', ['$log','$scope','$state','ordersData','$uibModal', 'NgMap','$rootScope','$timeout', 'homeService',
+        function ($log, $scope, $state, ordersData, $uibModal, NgMap, $rootScope, $timeout, homeService) {
 
             var init = function () {
                 $log.info('App:: Starting HomeController');
@@ -150,11 +150,14 @@
                         if (data.lat && data.lng) {
                             $scope.positions.push({pos: [data.lat, data.lng], name: index});
                         }
+
+                        $scope.ordersData[index] = homeService.classTraductor(data);
+
                     });
 
                     $timeout(function() {
                         $rootScope.$emit('positions.positionsChange', {positions: $scope.positions});
-                    }, 100);
+                    });
 
 
 
