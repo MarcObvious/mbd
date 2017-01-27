@@ -12,7 +12,7 @@
                 <a href="" ng-click="check(1)" class="sub-hedd-text">Estado<span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level" uib-collapse="collapseVar!=1">
                     <li ui-sref-active="active" ng-repeat="estado in sidebarContent.filtro_estado">
-                        <a class="sub-sub-hedd-text" ui-sref="root.home.ordergrid({ filter_by:'status', id:{{estado.id}}})">{{estado.n}} <span class="head-text">({{estado.c}})</span></a>
+                        <a class="sub-sub-hedd-text" ui-sref="root.home.ordergrid({ filter_by:'estado', id:{{estado.id}}})">{{estado.n}} <span class="head-text">({{estado.c}})</span></a>
                     </li>
                 </ul>
             </li>

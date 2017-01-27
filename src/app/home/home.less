@@ -1,62 +1,125 @@
 /* Less file for home - remember to import in main.less */
 
 .homeClass {
-  margin: 0 0 0 0;
-}
+  .mapsClass {
+    .google-maps {
+      position: relative;
+      padding-bottom: 30%;
+      height: 0;
+      min-height: 300px;
+      overflow: hidden;
 
-.google-maps {
-  position: relative;
-  padding-bottom: 30%;
-  height: 0;
-  min-height: 300px;
-  overflow: hidden;
-}
-.google-maps .gmap {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100% !important;
-  height: 100% !important;
-}
-
-.success {
-  background-color: #dff0d8;
-}
-
-.danger {
-  background-color: #f2dede;
-}
-
-.warning {
-  background-color: #f2e4ac;
-}
-
-.order-grid {
-  p > {
-    color: #5c5c5c;
+    }
+    .panel-body {
+      padding: 0;
+    }
+    .google-maps .gmap {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100% !important;
+      height: 100% !important;
+    }
   }
-  .order-grid-header {
-    display: inline;
-    span > {
+
+  .success {
+    background-color: #dff0d8;
+  }
+
+  .danger {
+    background-color: #f2dede;
+  }
+
+  .warning {
+    background-color: #f2e4ac;
+  }
+
+  .order-grid {
+    p > {
+      color: #5c5c5c;
+    }
+    .order-grid-header {
+      display: inline;
+      span > {
+        color: #ee2845;
+        font-weight: bold;
+      }
+    }
+    .order-grid-element {
+      cursor:pointer;
+
+      .order-grid-title {
+
+        .order-grid-order {
+          display: inline;
+          position: relative;
+
+        }
+        .order-grid-status {
+          display: inline;
+          position: absolute;
+          top:-20px;
+          right: 0;
+        }
+        .pendiente {
+          color: #F46224;
+        }
+        .encurso {
+          color: #16AA30;
+        }
+        .incidencia {
+          color: #FB1831;
+        }
+      }
+
+      .order-grid-text {
+        padding-top:10px;
+
+        .order-grid-strong {
+          font-weight: bold;
+          color:black;
+        }
+      }
+    }
+  }
+
+  .order-detail {
+    h4 > {
       color: #ee2845;
       font-weight: bold;
     }
-  }
-  .order-grid-element {
-    cursor:pointer;
+    p > {
+      color: #5c5c5c;
+    }
+    .order-detail-strong {
+      font-weight: bold;
+      color:black;
+    }
+    .order-detail-header {
+      cursor: pointer;
+      i > {
+        color: #ee2845;
+        font-weight: bold;
+      }
+    }
+    img > {
+      position:relative;
+      bottom: 3px;
+    }
+    .order-detail-title {
 
-    .order-grid-title {
-
-      .order-grid-order {
+      .order-detail-order {
         display: inline;
         position: relative;
 
       }
-      .order-grid-status {
+      .order-detail-status {
         display: inline;
         position: absolute;
         top:-20px;
+        bottom:10px;
         right: 0;
+
       }
       .pendiente {
         color: #F46224;
@@ -67,65 +130,6 @@
       .incidencia {
         color: #FB1831;
       }
-    }
-
-    .order-grid-text {
-      padding-top:10px;
-
-      .order-grid-strong {
-        font-weight: bold;
-        color:black;
-      }
-    }
-  }
-}
-
-.order-detail {
-  h4 > {
-    color: #ee2845;
-    font-weight: bold;
-  }
-  p > {
-    color: #5c5c5c;
-  }
-  .order-detail-strong {
-    font-weight: bold;
-    color:black;
-  }
-  .order-detail-header {
-    cursor: pointer;
-    i > {
-      color: #ee2845;
-      font-weight: bold;
-    }
-  }
-  img > {
-    position:relative;
-    bottom: 3px;
-  }
-  .order-detail-title {
-
-    .order-detail-order {
-      display: inline;
-      position: relative;
-
-    }
-    .order-detail-status {
-      display: inline;
-      position: absolute;
-      top:-20px;
-      bottom:10px;
-      right: 0;
-
-    }
-    .pendiente {
-      color: #F46224;
-    }
-    .encurso {
-      color: #16AA30;
-    }
-    .incidencia {
-      color: #FB1831;
     }
   }
 }

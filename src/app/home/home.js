@@ -42,9 +42,9 @@
                                     });
                                 }
                                 else {
-                                    homeService.getOrdersByDelivery().then(function (data) {
-                                        var data2 = homeService.convertOrdersByDeliveryToOrders(data);
-                                        def.resolve({data: data2, filterName:'Todos los pedidos'});
+                                    homeService.getAllOrders().then(function (data) {
+                                       // var data2 = homeService.convertOrdersByDeliveryToOrders(data);
+                                        def.resolve({data: data, filterName:'Todos los pedidos'});
                                     }, function (err) {
                                         def.reject(err);
                                     });

@@ -22,15 +22,12 @@ angular.module('homeService', [])
                 },
                 getAllOrders: function (params) {
                     var def = $q.defer();
-                    this.getOrdersByDelivery(params).then(function(data){
-                        this.convertOrdersByDeliveryToOrders(data).then(function(orders){
-                            def.resolve(orders);
-                        });
+                    this.api('ordersfront').get(params, {}, function(data){
+                            def.resolve(data.data);
+                    }, function (err) {
+                        def.reject(err);
                     });
-                    /*
-                     this.api().get(params, {}, function (data) {
 
-                     */
                     return def.promise;
                 },
                 getOrdersByDelivery: function (params) {
@@ -54,7 +51,7 @@ angular.module('homeService', [])
                 },
                 getOrdersByStatus: function (params) {
                     var def = $q.defer();
-                    this.api('orders_by_deliveryman/'+ params.id).get({}, {}, function (data) {
+                    this.api('ordersfront/'+ params.id).get({}, {}, function (data) {
                         def.resolve(data.data);
                     }, function (err) {
                         def.reject(err);
