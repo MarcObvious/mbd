@@ -56,32 +56,38 @@ angular.module('globalService', [])
                             {n: 'Incidéncias', c: 0, id: 4}],
                         filtro_repartidor: []
                     };
-                    this.api('orders').get({}, {}, function (data) {
-                        if(data.data) {
-                            angular.forEach(data.data, function(obd) {
-                                estados.filtro_repartidor.push({n: obd.id_mensajero, id: obd.id_mensajero, c: obd.num_orders});
-                                cpedidos += obd.num_orders;
+                    this.api('ordersfront').get({}, {}, function (data) {
 
-                                if (obd.num_orders){
-                                    angular.forEach(obd.orders, function(order) {
-                                        switch (order.order_state) {
-                                            case 'Pago acceptado':
-                                                ++estados.filtro_estado[1].c;
-                                                break;
-                                            case 'Albarán de entrega impreso.':
-                                                ++estados.filtro_estado[2].c;
-                                                break;
-                                            default:
-                                                ++estados.filtro_estado[1].c;
-                                                break;
-                                        }
-                                        //orders.push(order);
-                                    });
+                        if(data.data) {
+                            cpedidos = data.results;
+                          ///  console.log(data.data);
+                            angular.forEach(data.data, function(order) {
+                                if (angular.isDefined(order.mensajero)) {
+                                    var prev = angular.isDefined(estados.filtro_repartidor[order.mensajero]) ? estados.filtro_repartidor[order.mensajero] : {n: order.mensajero, id: order.mensajero, c: 0};
+                                    ++prev.c;
+                              //      console.log(prev);
+                                    estados.filtro_repartidor[order.mensajero] = prev;
                                 }
+
+                               // cpedidos += obd.num_orders;
+                                switch (order.id_order_state) {
+                                    case '17':
+                                        ++estados.filtro_estado[2].c;
+                                        break;
+                                    case '5':
+                                    case '6':
+                                        ++estados.filtro_estado[2].c;
+                                        break;
+                                    default:
+                                        ++estados.filtro_estado[1].c;
+                                        break;
+                                }
+
                             });
                         }
                         estados.filtro_estado.push({n: 'Todos los pedidos', c: cpedidos, id:0});
-                        estados.filtro_repartidor.push({n: 'Todos los repartidores', c: cpedidos, id:0});
+                        estados.filtro_repartidor['Todos los repartidores'] = {n: 'Todos los repartidores', c: cpedidos, id:0};
+                        console.log(estados);
 
                         def.resolve(estados);
                     }, function (err) {

@@ -20,6 +20,7 @@
                 <a href="" ng-click="check(2)" class="sub-hedd-text">Repatidor<span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level" uib-collapse="collapseVar!=2">
                     <li ui-sref-active="active" ng-repeat="repartidor in sidebarContent.filtro_repartidor">
+                        {{repartidor}}
                         <a class="sub-sub-hedd-text" ui-sref="root.home.ordergrid({ filter_by:'repartidor', id:{{repartidor.id}} })">{{repartidor.n}} <span class="head-text">({{repartidor.c}})</span></a>
                     </li>
                 </ul>

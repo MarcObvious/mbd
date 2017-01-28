@@ -43,12 +43,14 @@
                                 }
                                 else {
                                     homeService.getAllOrders().then(function (data) {
-                                       // var data2 = homeService.convertOrdersByDeliveryToOrders(data);
                                         def.resolve({data: data, filterName:'Todos los pedidos'});
                                     }, function (err) {
                                         def.reject(err);
                                     });
                                 }
+                                homeService.getOrderStates().then(function (data) {
+                                    console.log(data);
+                                });
 
                                 return def.promise;
                             }])

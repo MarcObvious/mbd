@@ -40,6 +40,17 @@ angular.module('homeService', [])
                     return def.promise;
                 },
 
+                getOrderStates: function (params) {
+                    var def = $q.defer();
+                    this.api('order_states').get(params, {}, function (data) {
+                        def.resolve(data.data);
+                    }, function (err) {
+                        def.reject(err);
+                    });
+                    return def.promise;
+                },
+
+
                 getOrdersByDeliveryMan: function (params) {
                     var def = $q.defer();
                     this.api('orders_by_deliveryman/'+ params.id).get({}, {}, function (data) {
