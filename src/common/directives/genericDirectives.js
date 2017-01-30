@@ -74,8 +74,6 @@ angular.module('genericDirectives', [])
                 scope: {
                 },
                 controller:function($scope, $rootScope, authService){
-
-
                     var init = function(){
                         $scope.collapseVar = 999;
                         $scope.multiCollapseVar = 0;
@@ -88,7 +86,6 @@ angular.module('genericDirectives', [])
                     };
 
                     $rootScope.$on('logged.loggedChange', function(event, aValues) {
-                        console.log('changed!');
                         $scope.logged = aValues.logged;
                     });
 

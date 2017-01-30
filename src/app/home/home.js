@@ -5,6 +5,11 @@
                 .state('root.home', {
                     url: '',
                     parent: 'root',
+                    resolve: {
+                        autentica: (['authService', function (authService) {
+                            return authService.autentica();
+                        }])
+                    },
                     abstract: true,
                     views: {
                         "container@": {
@@ -19,9 +24,6 @@
                     url: '/?:{filter_by}/:{id}',
                     parent: 'root.home',
                     resolve: {
-                        autentica: (['authService',  function (authService) {
-                          return authService.autentica();
-                        }]),
                         ordersData: (['homeService', '$q', '$log','$stateParams',
                             function (homeService, $q, $log, $stateParams) {
                                 var def = $q.defer();
