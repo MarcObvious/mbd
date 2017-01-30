@@ -51,9 +51,9 @@ angular.module('authService', [])
                     globalService.removeStorage(CUSTOM_HEADER);
                     globalService.removeStorage('user_data');
 
-                    if (username=== 'Admin' && password === '1234') {
+                    if (username === 'Admin' && password === '1234') {
                         // globalService.setStorage('user_data', {id: data.data.id, username: data.data.username, email: data.data.email, level: data.data.level});
-                        globalService.setStorage(CUSTOM_HEADER, 'affa5d03c879f16e9d005d7497f6fdc8');
+                        globalService.setStorage(CUSTOM_HEADER, API_KEY);
 
                         def.resolve(true);
                     }

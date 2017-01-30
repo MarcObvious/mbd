@@ -23,7 +23,7 @@
                 });
         }]);
 
-    app.controller('authController', ['$scope','$log', 'authService','$state', function ($scope,$log, authService,$state) {
+    app.controller('authController', ['$scope','$log', 'authService','$state', function ($scope, $log, authService,$state) {
 
         var init = function () {
             $log.info('App:: Starting authController');
