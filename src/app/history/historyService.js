@@ -22,9 +22,8 @@ angular.module('historyService', [])
                 },
                 getAllEntregas: function (params) {
                     var def = $q.defer();
-                    console.log(params);
                     this.api('ordersfront/').get(params, {}, function(data){
-                            def.resolve(data.data);
+                        def.resolve(data.data);
                     }, function (err) {
                         def.reject(err);
                     });
@@ -35,7 +34,7 @@ angular.module('historyService', [])
                 getAllIncidencias: function (params) {
                     var def = $q.defer();
                     this.api('ordersfront/').get(params, {}, function(data){
-                            def.resolve(data.data);
+                        def.resolve(data.data);
                     }, function (err) {
                         def.reject(err);
                     });
