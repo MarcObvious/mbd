@@ -2,10 +2,10 @@
     &nbsp;
     <div class="history-grid">
         <div class="history-grid-header" ng-click="goBack()">
-            <p><img src="../../assets/mbd_back.svg" width="29px"> {{filterBy}} <span>({{totalItems}})</span>
+            <p><img src="../../assets/mbd_back.svg" width="29px"> {{option}} <span>({{totalItems}})</span>
         </div>
 
-        <div ng-if="ordersData" class="col-lg-4 history-grid-element" ng-repeat="orderData in ordersDataSliced">
+        <div ng-if="ordersData" class="col-lg-4 col-md-6 history-grid-element" ng-repeat="orderData in ordersDataSliced">
             <div class="panel panel-default" ng-click="openOrder(orderData.id_order)">
                 <div class="panel-body">
                     <div class="col-lg-12">
@@ -21,11 +21,42 @@
 
             </div>
         </div>
-        <div ng-show="totalItems>numPerPage" class="col-lg-12">
-            <div class="pull-right home-pagination">
-                <ul uib-pagination  direction-links="true" previous-text="&lsaquo;" next-text="&rsaquo;" total-items="totalItems" items-per-page="numPerPage" ng-model="currentPage" ng-change="pageChanged()"></ul>
+        <div class="col-md-12">
+            <div class="col-lg-offset-2 col-lg-10">
+                <div class="col-lg-3 col-md-3">
+                    <p>Desde el</p>
+                    <p class="input-group">
+                        <input title="Date Start" type="text" name="date_start"
+                               class="form-control"
+                               ng-model="dateStart.date"
+                               uib-datepicker-popup="{{dateEnd.format}}"
+                               placeholder="Date Start"/>
+                    </p>
+                </div>
+                <div class="col-lg-3 col-md-3">
+                    <p>Hasta el</p>
+                    <p class="input-group">
+                        <input title="Date End" type="text" name="date_end"
+                               class="form-control"
+                               ng-model="dateEnd.date"
+                               uib-datepicker-popup="{{dateEnd.format}}"
+                               placeholder="Date End"/>
+                    </p>
+                </div>
+                <div class="col-lg-2 col-md-2 btn-mostrar">
+                    <button class="btn btn-danger" ng-click="mostrar()"> MOSTRAR</button>
+                </div>
+
+
+                <div ng-show="totalItems>numPerPage" class="col-lg-4">
+                    <div class="home-pagination pull-right">
+                        <ul uib-pagination  direction-links="true" previous-text="&lsaquo;" next-text="&rsaquo;" total-items="totalItems" items-per-page="numPerPage" ng-model="currentPage" ng-change="pageChanged()"></ul>
+                    </div>
+                </div>
             </div>
         </div>
+
+
         <div ng-if="ordersData==false" class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-body">

@@ -1,6 +1,6 @@
 angular.module('historyService', [])
-    .factory('historyService', ['$resource', '$q', '$log',
-        function ($resource, $q, $log) {
+    .factory('historyService', ['$resource', '$q',
+        function ($resource, $q) {
             return {
                 api: function (extra_route) {
                     if (!extra_route) {
@@ -22,7 +22,8 @@ angular.module('historyService', [])
                 },
                 getAllEntregas: function (params) {
                     var def = $q.defer();
-                    this.api('ordersfront').get(params, {}, function(data){
+                    console.log(params);
+                    this.api('ordersfront/').get(params, {}, function(data){
                             def.resolve(data.data);
                     }, function (err) {
                         def.reject(err);
@@ -33,7 +34,7 @@ angular.module('historyService', [])
 
                 getAllIncidencias: function (params) {
                     var def = $q.defer();
-                    this.api('ordersfront').get(params, {}, function(data){
+                    this.api('ordersfront/').get(params, {}, function(data){
                             def.resolve(data.data);
                     }, function (err) {
                         def.reject(err);

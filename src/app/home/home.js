@@ -82,7 +82,6 @@
                                     def.reject(err);
                                 });
 
-
                                 return def.promise;
                             }])
                     },

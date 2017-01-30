@@ -3,7 +3,7 @@
         function ($stateProvider) {
             $stateProvider
                 .state('root.history', {
-                    url: '/history/?:{option}',
+                    url: '/history/?:{option}&:{start}&:{end}',
                     parent: 'root',
                     resolve: {
                         autentica: (['authService',  function (authService) {
@@ -13,18 +13,23 @@
                             function (historyService, $q, $log, $stateParams) {
                                 var def = $q.defer();
                                 var option = $stateParams.option;
-                                $log.debug('Home::::ResolveHistory::'+option);
+                                var params = {};
+                                if ($stateParams.start && $stateParams.end) {
+                                    params.start = $stateParams.start;
+                                    params.end = $stateParams.end;
+                                }
+                                $log.debug('Home::::ResolveHistory::'+option+'::'+params.start+'::'+params.end);
 
                                 if (option === 'entregas') {
-                                    historyService.getAllEntregas().then(function(data){
-                                        def.resolve({data: data, filterName:'Histórico de entregas'});
+                                    historyService.getAllEntregas(params).then(function(data){
+                                        def.resolve({data: data, option: option, name:'Histórico de entregas'});
                                     }, function (err) {
                                         def.reject(err);
                                     });
                                 }
                                 else if (option === 'incidencias') {
-                                    historyService.getAllIncidencias().then(function(data){
-                                        def.resolve({data: data, filterName:'Histórico de incidéncias'});
+                                    historyService.getAllIncidencias(params).then(function(data){
+                                        def.resolve({data: data, option: option, name:'Histórico de incidéncias'});
                                     }, function (err) {
                                         def.reject(err);
                                     });
@@ -55,9 +60,11 @@
                 $log.info('App:: Starting HomeController');
                 $scope.totalItems = 0;
 
-                $scope.filterBy = ordersData.filterName;
-                $scope.ordersData = ordersData.data;
                 if (ordersData.data) {
+                    $scope.option = ordersData.option;
+                    $scope.name = ordersData.name;
+                    $scope.ordersData = ordersData.data;
+
                     $scope.ordersDataSliced = $scope.ordersData.slice(0, 15);
                     $scope.totalItems = $scope.ordersData.length;
 
@@ -66,11 +73,27 @@
 
                 }
 
+                var date = new Date();
+
+                $scope.dateStart = {};
+                $scope.dateStart.format = 'dd-MM-yyyy';
+                $scope.dateStart.date = new Date(date.getTime() - 24*60*60*1000*7);
+
+                $scope.dateEnd = {};
+                $scope.dateEnd.format = 'dd-MM-yyyy';
+                $scope.dateEnd.date = date;
+
             };
 
             $scope.pageChanged = function () {
                 var begin = (($scope.currentPage - 1) * $scope.numPerPage), end = begin + $scope.numPerPage;
                 $scope.ordersDataSliced = $scope.ordersData.slice(begin, end);
+            };
+
+            $scope.mostrar = function() {
+                var start =  Date.parse($scope.dateStart.date)/1000;
+                var end =  Date.parse($scope.dateEnd.date)/1000;
+                $state.go('root.history', {option: $scope.option, start: start, end: end});
             };
 
             $scope.openOrder = function (id_order) {
