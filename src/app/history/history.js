@@ -21,21 +21,21 @@
                                 $log.debug('Home::::ResolveHistory::'+option+'::'+params.start+'::'+params.end);
 
                                 if (option === 'entregas') {
-                                    historyService.getAllEntregas(params).then(function(data){
-                                        def.resolve({data: data, option: option, name:'Histórico de entregas'});
+                                    historyService.getAllEntregas(params).then(function(data) {
+                                        def.resolve({data: data, option: option, dates: params, name:'Histórico de entregas'});
                                     }, function (err) {
                                         def.reject(err);
                                     });
                                 }
                                 else if (option === 'incidencias') {
-                                    historyService.getAllIncidencias(params).then(function(data){
-                                        def.resolve({data: data, option: option, name:'Histórico de incidéncias'});
+                                    historyService.getAllIncidencias(params).then(function(data) {
+                                        def.resolve({data: data, option: option, dates: params, name:'Histórico de incidéncias'});
                                     }, function (err) {
                                         def.reject(err);
                                     });
                                 }
                                 else {
-                                    def.reject(err);
+                                    def.reject(false);
                                 }
                                 return def.promise;
                             }])
@@ -60,19 +60,6 @@
                 $log.info('App:: Starting HomeController');
                 $scope.totalItems = 0;
 
-                if (ordersData.data) {
-                    $scope.option = ordersData.option;
-                    $scope.name = ordersData.name;
-                    $scope.ordersData = ordersData.data;
-
-                    $scope.ordersDataSliced = $scope.ordersData.slice(0, 15);
-                    $scope.totalItems = $scope.ordersData.length;
-
-                    $scope.currentPage = 2;
-                    $scope.numPerPage = 15;
-
-                }
-
                 var date = new Date();
 
                 $scope.dateStart = {};
@@ -87,6 +74,26 @@
                 $scope.dateEnd.date = date;
                 $scope.dateEnd.opened = false;
 
+                if (ordersData.data) {
+                    if(angular.isDefined(ordersData.dates.start)) {
+                        $scope.dateStart.date = new Date(Date.parse(ordersData.dates.start));
+                    }
+                    if(angular.isDefined(ordersData.dates.end)) {
+                        $scope.dateEnd.date = new Date(Date.parse(ordersData.dates.end));
+                    }
+
+                    $scope.option = ordersData.option;
+                    $scope.name = ordersData.name;
+                    $scope.ordersData = ordersData.data;
+
+                    $scope.ordersDataSliced = $scope.ordersData.slice(0, 15);
+                    $scope.totalItems = $scope.ordersData.length;
+
+                    $scope.currentPage = 2;
+                    $scope.numPerPage = 15;
+
+                }
+
             };
 
             $scope.openDatepicker = function(date) {
@@ -99,8 +106,8 @@
             };
 
             $scope.mostrar = function() {
-                var start =  Date.parse($scope.dateStart.date)/1000;
-                var end =  Date.parse($scope.dateEnd.date)/1000;
+                var start =  $scope.dateStart.date.toJSON().replace("T"," ").replace("Z","");
+                var end =  $scope.dateEnd.date.toJSON().replace("T"," ").replace("Z","");
                 $state.go('root.history', {option: $scope.option, start: start, end: end});
             };
 

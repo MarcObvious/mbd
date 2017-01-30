@@ -30,7 +30,7 @@
                                class="form-control" is-open="dateStart.opened"
                                ng-model="dateStart.date" popup-placement="top"
                                uib-datepicker-popup="{{dateEnd.format}}"
-                               datepicker-options="dateStart.dateOptions" date-disabled="disabled(date, mode)"
+                               datepicker-options="dateStart.dateOptions"
                                placeholder="Date Start"/>
 
                         <span class="input-group-btn">
@@ -45,7 +45,7 @@
                                class="form-control" is-open="dateEnd.opened"
                                ng-model="dateEnd.date" popup-placement="top"
                                uib-datepicker-popup="{{dateEnd.format}}"
-                               datepicker-options="dateEnd.dateOptions" date-disabled="disabled(date, mode)"
+                               datepicker-options="dateEnd.dateOptions"
                                placeholder="Date End"/>
                         <span class="input-group-btn">
                         <button type="button" class="btn btn-danger" ng-click="openDatepicker('dateEnd')"><i class="fa fa-calendar"></i></button>
@@ -59,7 +59,13 @@
 
                 <div ng-show="totalItems>numPerPage" class="col-lg-4">
                     <div class="home-pagination pull-right">
-                        <ul uib-pagination  direction-links="true" previous-text="&lsaquo;" next-text="&rsaquo;" total-items="totalItems" items-per-page="numPerPage" ng-model="currentPage" ng-change="pageChanged()"></ul>
+                        <ul uib-pagination  direction-links="true"
+                            previous-text="&lsaquo;" next-text="&rsaquo;"
+                            total-items="totalItems"
+                            items-per-page="numPerPage" max-size="4"
+                            boundary-link-numbers="true" rotate="false"
+                            ng-model="currentPage" ng-change="pageChanged()">
+                        </ul>
                     </div>
                 </div>
             </div>
