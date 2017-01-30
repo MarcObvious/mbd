@@ -5,18 +5,18 @@
                 .state('root.auth', {
                     url: '/auth',
                     parent: 'root',
+                    resolve: {
+                        autentica: (['globalService',  function (globalService) {
+                            return globalService.removeStorage(CUSTOM_HEADER);
+                        }])
+
+                    },
                     views: {
                         "container@": {
                             controller: 'authController',
                             templateUrl: 'auth/auth.tpl.html'
                         }
                     },
-                    /*resolve: {
-                        autentica: (['globalService', '$state','$log',  function (globalService, $state, $log) {
-                            return globalService.removeStorage(CUSTOM_HEADER);
-                        }])
-
-                    },*/
                     data: {
                         pageTitle: 'auth'
                     }
@@ -24,39 +24,61 @@
         }]);
 
     app.controller('authController', ['$scope','$log', 'authService','$state', function ($scope,$log, authService,$state) {
-        $scope.myjson={};
 
         var init = function () {
             $log.info('App:: Starting authController');
-
-            $scope.model={};
-            $scope.model.pageTitle=$state.current.data.pageTitle;
-
-            $scope.isAuthenticated = function(){
-                authService.getUserInfo().then(function (data) {
-                }, function (err) {
-                    $log.error(err);
-                });
-            };
-        };
-
-        $scope.submitLogin = function(){
-            authService.submitLogin($scope.login.username,$scope.login.password).then(function (data) {
-                if(data === true) {
-                    $state.go('root.home');
-                    return true;
-                }
-                else {
-                    alert('Credenciales incorrectas');
-                }
-            }, function (err) {
-                alert('Credenciales incorrectas');
-                $log.error(err);
-            });
+            $scope.pageTitle=$state.current.data.pageTitle;
         };
 
         init();
     }]);
+
+    app.directive('loginBox',function() {
+        return {
+            templateUrl:'auth/login-box.tpl.html',
+            restrict: 'E',
+            replace: true,
+            scope: {},
+            controller: function($scope, $rootScope, $log, authService, $state){
+                var init = function() {
+                    $scope.selectedMenu = 'home';
+                    $scope.date = new Date();
+                    $scope.login = {};
+                    authService.autentica().then(function (data) {
+                        $scope.logged = data;
+                        $rootScope.$emit('logged.loggedChange', {logged: $scope.logged});
+                    });
+
+                };
+
+                $scope.submitLogout = function() {
+                    authService.submitLogout();
+                    $scope.logged = false;
+                    $rootScope.$emit('logged.loggedChange', {logged: false});
+                    $state.go('root.auth');
+                };
+
+                $scope.submitLogin = function(){
+                    authService.submitLogin($scope.login.username, $scope.login.password).then(function (data) {
+                        if(data === true) {
+                            $scope.logged = true;
+                            $rootScope.$emit('logged.loggedChange', {logged: true});
+                            $state.go('root.home.ordergrid');
+                            return true;
+                        }
+                        else {
+                            alert('Credenciales incorrectas');
+                        }
+                    }, function (err) {
+                        alert('Credenciales incorrectas');
+                        $log.error(err);
+                    });
+                };
+
+                init();
+            }
+        };
+    });
 
 }(angular.module("mbd.auth", [
     'ui.router',

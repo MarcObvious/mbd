@@ -1,9 +1,9 @@
 <div class="navbar-default sidebar" role="navigation">
     <div class="sidebar-nav navbar-collapse">
-        <img src="../../assets/logo-matiasRojo.svg" width="100%" height="100%" ui-sref="root.auth">
-        <ul class="nav in" id="side-menu">
+        <img src="../../assets/logo-matiasRojo.svg" width="100%" height="100%">
+        <login-box></login-box>
 
-            <login-box></login-box>
+        <ul class="nav in" id="side-menu" ng-show="logged">
             <sidebar-search></sidebar-search>
             <li>
                 <a href="" class="head-text">Filtrar por:</a>
@@ -19,8 +19,7 @@
             <li ng-class="{active: collapseVar==2}">
                 <a href="" ng-click="check(2)" class="sub-hedd-text">Repatidor<span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level" uib-collapse="collapseVar!=2">
-                    <li ui-sref-active="active" ng-repeat="repartidor in sidebarContent.filtro_repartidor">
-                        {{repartidor}}
+                    <li ui-sref-active="active" ng-repeat="repartidor in sidebarContent.filtro_repartidor track by $index">
                         <a class="sub-sub-hedd-text" ui-sref="root.home.ordergrid({ filter_by:'repartidor', id:{{repartidor.id}} })">{{repartidor.n}} <span class="head-text">({{repartidor.c}})</span></a>
                     </li>
                 </ul>
@@ -29,10 +28,10 @@
                 <a href="" class="head-text">Histórico:</a>
             </li>
             <li>
-                <a ui-sref="root.home.ordergrid({ option:entregas })" class="sub-hedd-text">Entregas</a>
+                <a ui-sref="root.history({ option: 'entregas' })" class="sub-hedd-text">Entregas</a>
             </li>
             <li>
-                <a ui-sref="root.home.ordergrid({ option:incidencias })"  class="sub-hedd-text">Incidéncias</a>
+                <a ui-sref="root.history({ option: 'incidencias' })" class="sub-hedd-text">Incidéncias</a>
             </li>
         </ul>
     </div>

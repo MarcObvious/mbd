@@ -8,7 +8,6 @@
                     abstract: true,
                     views: {
                         "container@": {
-                            controller: 'HomeController',
                             templateUrl: 'home/home.tpl.html'
                         }
                     },
@@ -20,6 +19,9 @@
                     url: '/?:{filter_by}/:{id}',
                     parent: 'root.home',
                     resolve: {
+                        autentica: (['authService',  function (authService) {
+                          return authService.autentica();
+                        }]),
                         ordersData: (['homeService', '$q', '$log','$stateParams',
                             function (homeService, $q, $log, $stateParams) {
                                 var def = $q.defer();
@@ -48,9 +50,6 @@
                                         def.reject(err);
                                     });
                                 }
-                                homeService.getOrderStates().then(function (data) {
-                                    console.log(data);
-                                });
 
                                 return def.promise;
                             }])
@@ -95,16 +94,6 @@
                         pageTitle: 'OrderDetail'
                     }
                 });
-        }]);
-
-    app.controller('HomeController', ['$log','$scope','$state', 'NgMap',
-        function ($log, $scope, $state, NgMap) {
-
-            var init = function() {
-
-            };
-
-            init();
         }]);
 
     app.controller('orderDetailController', ['$log','$scope','$state','orderData', '$rootScope','$timeout', 'homeService',
@@ -156,14 +145,10 @@
                         }
 
                     });
-                    console.log($scope.positions);
 
                     $timeout(function() {
                         $rootScope.$emit('positions.positionsChange', {positions: $scope.positions});
                     });
-
-
-
                 }
 
             };
@@ -185,5 +170,6 @@
 }(angular.module("mbd.home", [
     'ui.router',
     'ngAnimate',
-    'homeService'
+    'homeService',
+    'authService'
 ])));

@@ -19,9 +19,9 @@
 
         </div>
     </div>
-    <div ng-show="totalItems>6" class="col-lg-12">
+    <div ng-show="totalItems>numPerPage" class="col-lg-12">
         <div class="pull-right home-pagination">
-            <ul uib-pagination total-items="totalItems" ng-model="currentPage" ng-change="pageChanged()"></ul>
+            <ul uib-pagination  direction-links="true" previous-text="&lsaquo;" next-text="&rsaquo;" total-items="totalItems" items-per-page="numPerPage" ng-model="currentPage" ng-change="pageChanged()"></ul>
         </div>
     </div>
     <div ng-if="ordersData==false" class="col-lg-12">

@@ -2,8 +2,8 @@
  * Global Services Test Módule
  */
 angular.module('globalService', [])
-    .factory('globalService', ['$resource', '$q', '$log',
-        function ($resource, $q, $log) {
+    .factory('globalService', ['$resource', '$q', '$log', 'localStorageService',
+        function ($resource, $q, $log, localStorageService) {
             return {
                 api: function (extra_route) {
                     if (!extra_route) {
@@ -44,6 +44,35 @@ angular.module('globalService', [])
                     }
                     return parameterValue;
                 },
+                setStorage: function (key, value) {
+                    var def = $q.defer();
+                    if (key && value) {
+                        localStorageService.set(key, value);
+                    }
+                    def.resolve();
+                    return def.promise;
+                },
+                getStorage: function (key) {
+                    var def = $q.defer();
+                    if (key) {
+                        def.resolve(localStorageService.get(key));
+                    } else {
+                        $log.debug('No key to read...');
+                        def.resolve(false);
+                    }
+                    return def.promise;
+                },
+                removeStorage: function (key) {
+                    var def = $q.defer();
+                    if (key) {
+                        localStorageService.cookie.remove(key);
+                        localStorageService.remove(key);
+                    } else {
+                        $log.debug('No key to delete...');
+                    }
+                    def.resolve();
+                    return def.promise;
+                },
                 getSideBarContent: function () {
                     var def = $q.defer();
 
@@ -60,34 +89,37 @@ angular.module('globalService', [])
 
                         if(data.data) {
                             cpedidos = data.results;
-                          ///  console.log(data.data);
                             angular.forEach(data.data, function(order) {
-                                if (angular.isDefined(order.mensajero)) {
-                                    var prev = angular.isDefined(estados.filtro_repartidor[order.mensajero]) ? estados.filtro_repartidor[order.mensajero] : {n: order.mensajero, id: order.mensajero, c: 0};
-                                    ++prev.c;
-                              //      console.log(prev);
-                                    estados.filtro_repartidor[order.mensajero] = prev;
-                                }
+                                var flag = 0;
+                                angular.forEach(estados.filtro_repartidor, function (repartidor, index) {
+                                    if (repartidor.id === order.id_mensajero) {
+                                        ++estados.filtro_repartidor[index].c;
+                                        flag = 1;
+                                    }
+                                });
 
-                               // cpedidos += obd.num_orders;
-                                switch (order.id_order_state) {
-                                    case '17':
+                                if (flag === 0){
+                                    estados.filtro_repartidor.push({n: order.mensajero, c: 1, id: order.id_mensajero});
+                                }
+                                switch (order.id_delivery_state) {
+                                    case '3':
+                                        ++estados.filtro_estado[3].c;
+                                        break;
+                                    case '2':
                                         ++estados.filtro_estado[2].c;
                                         break;
-                                    case '5':
-                                    case '6':
-                                        ++estados.filtro_estado[2].c;
+                                    case '1':
+                                        ++estados.filtro_estado[1].c;
                                         break;
                                     default:
-                                        ++estados.filtro_estado[1].c;
+                                        ++estados.filtro_estado[0].c;
                                         break;
                                 }
 
                             });
                         }
                         estados.filtro_estado.push({n: 'Todos los pedidos', c: cpedidos, id:0});
-                        estados.filtro_repartidor['Todos los repartidores'] = {n: 'Todos los repartidores', c: cpedidos, id:0};
-                        console.log(estados);
+                        estados.filtro_repartidor.push({n: 'Todos los repartidores', c: cpedidos, id: 0});
 
                         def.resolve(estados);
                     }, function (err) {

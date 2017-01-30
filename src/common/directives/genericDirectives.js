@@ -73,16 +73,24 @@ angular.module('genericDirectives', [])
                 replace: true,
                 scope: {
                 },
-                controller:function($scope, $log, $timeout){
-                    $scope.collapseVar = 999;
-                    $scope.multiCollapseVar = 0;
+                controller:function($scope, $rootScope, authService){
+
 
                     var init = function(){
+                        $scope.collapseVar = 999;
+                        $scope.multiCollapseVar = 0;
+
                         $scope.check(1);
                         globalService.getSideBarContent().then(function(content){
                             $scope.sidebarContent = content;
                         });
+                        $scope.logged = authService.autentica();
                     };
+
+                    $rootScope.$on('logged.loggedChange', function(event, aValues) {
+                        console.log('changed!');
+                        $scope.logged = aValues.logged;
+                    });
 
                     $scope.check = function(x){
 
@@ -131,6 +139,8 @@ angular.module('genericDirectives', [])
         };
     }])
 
+
+
     .directive('sidebarSearch',['$state', function($state) {
         return {
             templateUrl:'directives/templates/sidebar-search.tpl.html',
@@ -153,18 +163,7 @@ angular.module('genericDirectives', [])
         };
     }])
 
-    .directive('loginBox',function() {
-        return {
-            templateUrl:'directives/templates/login-box.tpl.html',
-            restrict: 'E',
-            replace: true,
-            scope: {},
-            controller:function($scope){
-                $scope.selectedMenu = 'home';
-                $scope.date = new Date();
-            }
-        };
-    })
+
 
 
     .directive('contentItem',['$compile','$log', function ($compile,$log) {

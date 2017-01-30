@@ -1,11 +1,19 @@
 (function (app) {
 
-    app.config(['$stateProvider', '$urlRouterProvider', '$httpProvider', '$locationProvider',
-        function ($stateProvider, $urlRouterProvider, $httpProvider, $locationProvider) {
+    app.config(['$stateProvider', '$urlRouterProvider', '$httpProvider', '$locationProvider', 'localStorageServiceProvider',
+        function ($stateProvider, $urlRouterProvider, $httpProvider, $locationProvider, localStorageServiceProvider) {
             $urlRouterProvider.otherwise('/');
             $httpProvider.interceptors.push('cInterceptor');
             $httpProvider.defaults.useXDomain = true;
             delete $httpProvider.defaults.headers.common['X-Requested-With'];
+
+            localStorageServiceProvider
+                .setPrefix('')
+                .setStorageType('localStorage')
+                .setStorageCookie(7, '/')
+                .setStorageCookieDomain('lmbd.iaproject.net/')
+                .setNotify(true, true);
+
 
             //Root view, very important resolve data async before states
             $stateProvider
@@ -35,7 +43,7 @@
         $log.info('App:: Starting AppController');
     }]);
 
-    app.controller('FrontController', ['$scope', '$log','$location', function ($scope, $log, $location) {
+    app.controller('FrontController', ['$scope', '$log', function ($scope, $log) {
         $log.info('App:: Starting FrontController');
     }]);
 
@@ -48,7 +56,9 @@
     'ngAnimate',
     'globalService',
     'mbd.home',
+    'mbd.history',
     'mbd.auth',
+    'LocalStorageModule',
     'ui.bootstrap',
     'templates-app',
     'templates-common',

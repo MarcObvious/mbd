@@ -42,6 +42,7 @@
 
 
 @import '../app/home/home.less';
+@import '../app/history/history.less';
 @import '../app/auth/auth.less';
 
 
@@ -248,10 +249,32 @@ body {
 }
 
 .sidebar .sidebar-search {
-    padding: 15px;
+    padding: 0 15px 15px 15px;
 }
 .sidebar .sidebar-loginBox {
-    padding: 15px;
+    padding: 15px 15px 0 15px;
+    h4 > {
+        font-weight: bold;
+        color: black;
+
+    }
+    hr > {
+        margin-top:10px;
+        margin-right:-15px;
+        margin-left:-15px;
+
+    }
+    p > {
+        color: #5c5c5c;
+    }
+    span > {
+        cursor: pointer;
+    }
+    .email-red {
+        padding-top: 15px;
+        color: #ee2845;
+        font-weight: bold;
+    }
 }
 
 .sidebar ul li {
@@ -291,10 +314,12 @@ body {
 
 @media(min-width:768px) {
     .sidebar {
+        min-height: 100vh;
         z-index: 1;
         position: absolute;
         width: 250px;
         margin-top: 0;
+        background: white;
     }
 
     .navbar-top-links .dropdown-messages,
@@ -302,6 +327,7 @@ body {
     .navbar-top-links .dropdown-alerts {
         margin-left: auto;
     }
+
 }
 
 .btn-outline {
