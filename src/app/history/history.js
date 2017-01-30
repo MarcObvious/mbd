@@ -77,12 +77,20 @@
 
                 $scope.dateStart = {};
                 $scope.dateStart.format = 'dd-MM-yyyy';
+                $scope.dateStart.dateOptions = { formatYear: 'yy', startingDay: 1 };
                 $scope.dateStart.date = new Date(date.getTime() - 24*60*60*1000*7);
+                $scope.dateStart.opened = false;
 
                 $scope.dateEnd = {};
                 $scope.dateEnd.format = 'dd-MM-yyyy';
+                $scope.dateEnd.dateOptions = { formatYear: 'yy', startingDay: 1 };
                 $scope.dateEnd.date = date;
+                $scope.dateEnd.opened = false;
 
+            };
+
+            $scope.openDatepicker = function(date) {
+                $scope[date].opened = true;
             };
 
             $scope.pageChanged = function () {

@@ -23,28 +23,37 @@
         </div>
         <div class="col-md-12">
             <div class="col-lg-offset-2 col-lg-10">
-                <div class="col-lg-3 col-md-3">
+                <div class="col-lg-3 col-md-3 col-sm-12">
                     <p>Desde el</p>
                     <p class="input-group">
                         <input title="Date Start" type="text" name="date_start"
-                               class="form-control"
-                               ng-model="dateStart.date"
+                               class="form-control" is-open="dateStart.opened"
+                               ng-model="dateStart.date" popup-placement="top"
                                uib-datepicker-popup="{{dateEnd.format}}"
+                               datepicker-options="dateStart.dateOptions" date-disabled="disabled(date, mode)"
                                placeholder="Date Start"/>
+
+                        <span class="input-group-btn">
+                        <button type="button" class="btn btn-success" ng-click="openDatepicker('dateStart')"><i class="fa fa-calendar"></i></button>
+                    </span>
                     </p>
                 </div>
-                <div class="col-lg-3 col-md-3">
+                <div class="col-lg-3 col-md-3 col-sm-12">
                     <p>Hasta el</p>
                     <p class="input-group">
                         <input title="Date End" type="text" name="date_end"
-                               class="form-control"
-                               ng-model="dateEnd.date"
+                               class="form-control" is-open="dateEnd.opened"
+                               ng-model="dateEnd.date" popup-placement="top"
                                uib-datepicker-popup="{{dateEnd.format}}"
+                               datepicker-options="dateEnd.dateOptions" date-disabled="disabled(date, mode)"
                                placeholder="Date End"/>
+                        <span class="input-group-btn">
+                        <button type="button" class="btn btn-danger" ng-click="openDatepicker('dateEnd')"><i class="fa fa-calendar"></i></button>
+                    </span>
                     </p>
                 </div>
                 <div class="col-lg-2 col-md-2 btn-mostrar">
-                    <button class="btn btn-danger" ng-click="mostrar()"> MOSTRAR</button>
+                    <button class="btn btn-danger btn-block" ng-click="mostrar()"> MOSTRAR</button>
                 </div>
 
 
