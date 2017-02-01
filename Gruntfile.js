@@ -97,9 +97,16 @@ module.exports = function (grunt) {
             css: [
             ],
             css2: [
-                'vendor/fontawesome/css/font-awesome.css',
+                'vendor/fontawesome/css/font-awesome.css'
             ],
             assets: [
+            ],
+            fonts: [
+                'vendor/bootstrap/fonts/glyphicons-halflings-regular.eot',
+                'vendor/bootstrap/fonts/glyphicons-halflings-regular.svg',
+                'vendor/bootstrap/fonts/glyphicons-halflings-regular.ttf',
+                'vendor/bootstrap/fonts/glyphicons-halflings-regular.woff',
+                'vendor/bootstrap/fonts/glyphicons-halflings-regular.woff2'
             ]
         },
         extra_views: {
@@ -184,6 +191,13 @@ module.exports = function (grunt) {
                         cwd: '.',
                         expand: true,
                         flatten: true
+                    },
+                    {
+                        src: ['<%= vendor_files.fonts %>'],
+                        dest: '<%= build_dir %>/fonts/',
+                        cwd: '.',
+                        expand: true,
+                        flatten: true
                     }
                 ]
             },
@@ -225,6 +239,13 @@ module.exports = function (grunt) {
                         dest: '<%= compile_dir %>/assets',
                         cwd: '<%= build_dir %>/assets',
                         expand: true
+                    },
+                    {
+                        src: ['<%= vendor_files.fonts %>'],
+                        dest: '<%= compile_dir %>/fonts/',
+                        cwd: '.',
+                        expand: true,
+                        flatten: true
                     }
                 ]
             }
