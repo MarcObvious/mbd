@@ -20,10 +20,21 @@ angular.module('homeService', [])
                         }
                     });
                 },
+
+                getLocation: function (params) {
+                    var def = $q.defer();
+                    this.api('getlocation/'+params.id).get({}, {}, function(data){
+                        def.resolve(data.data);
+                    }, function (err) {
+                        def.reject(err);
+                    });
+
+                    return def.promise;
+                },
                 getAllOrders: function (params) {
                     var def = $q.defer();
                     this.api('ordersfront').get(params, {}, function(data){
-                            def.resolve(data.data);
+                        def.resolve(data.data);
                     }, function (err) {
                         def.reject(err);
                     });
@@ -90,29 +101,29 @@ angular.module('homeService', [])
                     return orders;
                 },
                 classTraductor: function (orderData) {
-                        switch (parseInt(orderData.id_delivery_state)) {
-                            case 1:
-                                orderData.state_class = 'poi_encurso';
-                                orderData.state_name = 'En curso';
-                                break;
-                            case 0:
-                            case 2:
-                                orderData.state_class = 'poi_pendiente';
-                                orderData.state_name = 'Pendiente';
-                                break;
-                            case 3:
-                                orderData.state_class = 'poi_encurso';
-                                orderData.state_name = 'En curso';
-                                break;
-                            case 4:
-                                orderData.state_class = 'poi_incidencia';
-                                orderData.state_name = 'Incidéncia';
-                                break;
-                            default:
-                                orderData.state_class = 'poi_incidencia';
-                                orderData.state_name = 'Incidéncia';
-                                break;
-                        }
+                    switch (parseInt(orderData.id_delivery_state)) {
+                        case 1:
+                            orderData.state_class = 'poi_encurso';
+                            orderData.state_name = 'En curso';
+                            break;
+                        case 0:
+                        case 2:
+                            orderData.state_class = 'poi_pendiente';
+                            orderData.state_name = 'Pendiente';
+                            break;
+                        case 3:
+                            orderData.state_class = 'poi_encurso';
+                            orderData.state_name = 'En curso';
+                            break;
+                        case 4:
+                            orderData.state_class = 'poi_incidencia';
+                            orderData.state_name = 'Incidéncia';
+                            break;
+                        default:
+                            orderData.state_class = 'poi_incidencia';
+                            orderData.state_name = 'Incidéncia';
+                            break;
+                    }
 
                     return orderData;
                 }

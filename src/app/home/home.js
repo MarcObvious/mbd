@@ -104,12 +104,22 @@
                 $scope.orderData = orderData;
                 if (orderData) {
                     $scope.orderData = homeService.classTraductor(orderData);
-                    console.log();
-                    var pickup_latlng = orderData.pickup_latlng.split(";");
-                    if (angular.isArray(pickup_latlng)) {
-                        $scope.positions = [{pos:[pickup_latlng[0], pickup_latlng[1]], name: 'u', state_class: $scope.orderData.state_class}];
+                    $scope.positions = [];
+
+                    if (angular.isDefined(orderData.lat) && angular.isDefined(orderData.lng)) {
+                        $scope.positions.push({pos:[orderData.lat, orderData.lng], name: 0, state_class: orderData.state_class});
                     }
-                    $scope.positions.push({pos:[orderData.lat, orderData.lng], name: 0, state_class: 'motorbike'});
+
+                    if(angular.isDefined(orderData.id_mensajero)){
+                        homeService.getLocation({id:orderData.id_mensajero}).then(function(data){
+
+                            if(angular.isDefined(data[0])) {
+                                $scope.positions.push({pos:[data[0].lat, data[0].lng], name: 0, state_class: 'motorbike'});
+
+                            }
+                        });
+                    }
+
                     $timeout(function() {
                         $rootScope.$emit('positions.positionsChange', {positions: $scope.positions});
                     });
@@ -134,8 +144,8 @@
                 $scope.ordersData = ordersData.data;
                 if (ordersData.data) {
                     $scope.ordersDataSliced = $scope.ordersData.slice(0, 6);
-                    //$scope.positions = [{pos: [41.415674, 2.160047], name: 1, state_class: 'poi_encurso'}];
-                    $scope.positions = [];
+                    $scope.positions = [{pos: [41.415674, 2.160047], name: 1, state_class: 'poi_encurso'}];
+                    //$scope.positions = [];
                     $scope.totalItems = $scope.ordersData.length;
 
                     $scope.currentPage = 1;
@@ -145,14 +155,12 @@
                         var data2 = homeService.classTraductor(data);
                         $scope.ordersData[index] = data2;
 
-                        var pickup_latlng = data.pickup_latlng.split(";");
-                        if (angular.isArray(pickup_latlng)) {
-                            $scope.positions.push({pos:[pickup_latlng[0], pickup_latlng[1]], name: index, state_class: data2.state_class});
+                        if (angular.isDefined(data.lat) && angular.isDefined(data.lng)) {
+                            $scope.positions.push({pos:[data.lat, data.lng], name: index, state_class: data2.state_class});
                         }
 
 
                     });
-                    console.log($scope.positions);
 
                     $timeout(function() {
                         $rootScope.$emit('positions.positionsChange', {positions: $scope.positions});
