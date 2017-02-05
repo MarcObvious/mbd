@@ -33,7 +33,7 @@ angular.module('historyService', [])
 
                 getAllIncidencias: function (params) {
                     var def = $q.defer();
-                    this.api('ordersfront/').get(params, {}, function(data){
+                    this.api('incidencesbydate/'+params.start+'/'+params.end).get({}, {}, function(data){
                         def.resolve(data.data);
                     }, function (err) {
                         def.reject(err);

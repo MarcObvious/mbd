@@ -3,7 +3,9 @@
         <div class="google-maps">
             <ng-map class="gmap" zoom="14" center="{{centerMap}}" >
                 <custom-marker ng-repeat="p in positions" position="{{p.pos}}" >
-                    <img width="64" src="../../assets/mbd_poi_{{p.state_class}}.svg" align="left" />
+
+                    <img  width="64" src="../../assets/mbd_{{p.state_class}}.svg" align="left" />
+
                 </custom-marker>
             </ng-map>
         </div>

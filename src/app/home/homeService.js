@@ -90,17 +90,26 @@ angular.module('homeService', [])
                     return orders;
                 },
                 classTraductor: function (orderData) {
-                        switch (orderData.order_state) {
-                            case 'Pago acceptado':
-                                orderData.state_class = 'pendiente';
-                                orderData.state_name = 'Pendiente';
-                                break;
-                            case 'Albarán de entrega impreso.':
-                                orderData.state_class = 'encurso';
+                        switch (parseInt(orderData.id_delivery_state)) {
+                            case 1:
+                                orderData.state_class = 'poi_encurso';
                                 orderData.state_name = 'En curso';
                                 break;
+                            case 0:
+                            case 2:
+                                orderData.state_class = 'poi_pendiente';
+                                orderData.state_name = 'Pendiente';
+                                break;
+                            case 3:
+                                orderData.state_class = 'poi_encurso';
+                                orderData.state_name = 'En curso';
+                                break;
+                            case 4:
+                                orderData.state_class = 'poi_incidencia';
+                                orderData.state_name = 'Incidéncia';
+                                break;
                             default:
-                                orderData.state_class = 'incidencia';
+                                orderData.state_class = 'poi_incidencia';
                                 orderData.state_name = 'Incidéncia';
                                 break;
                         }

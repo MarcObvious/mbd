@@ -104,9 +104,12 @@
                 $scope.orderData = orderData;
                 if (orderData) {
                     $scope.orderData = homeService.classTraductor(orderData);
-
-                    $scope.positions = [{pos:[orderData.lat, orderData.lng], name: 0, state_class: $scope.orderData.state_class}];
-                    //$scope.positions = [{pos:[41.390205,2.154007],name:1}];
+                    console.log();
+                    var pickup_latlng = orderData.pickup_latlng.split(";");
+                    if (angular.isArray(pickup_latlng)) {
+                        $scope.positions = [{pos:[pickup_latlng[0], pickup_latlng[1]], name: 'u', state_class: $scope.orderData.state_class}];
+                    }
+                    $scope.positions.push({pos:[orderData.lat, orderData.lng], name: 0, state_class: 'motorbike'});
                     $timeout(function() {
                         $rootScope.$emit('positions.positionsChange', {positions: $scope.positions});
                     });
@@ -131,7 +134,7 @@
                 $scope.ordersData = ordersData.data;
                 if (ordersData.data) {
                     $scope.ordersDataSliced = $scope.ordersData.slice(0, 6);
-                    $scope.positions = [{pos: [41.415674, 2.160047], name: 1, state_class: 'encurso'}];
+                    $scope.positions = [{pos: [41.415674, 2.160047], name: 1, state_class: 'poi_encurso'}];
 
                     $scope.totalItems = $scope.ordersData.length;
 

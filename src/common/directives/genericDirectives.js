@@ -61,7 +61,7 @@ angular.module('genericDirectives', [])
         return {
             templateUrl:'directives/templates/feedback.tpl.html',
             restrict: 'E',
-            replace: true,
+            replace: true
         };
     })
 

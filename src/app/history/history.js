@@ -18,6 +18,12 @@
                                     params.start = $stateParams.start;
                                     params.end = $stateParams.end;
                                 }
+                                else {
+                                    var end = new Date();
+                                    var start = new Date(end.getTime() - 24*60*60*1000*7);
+                                    params.start = start.toJSON().replace("T"," ").replace("Z","");
+                                    params.end = end.toJSON().replace("T"," ").replace("Z","");
+                                }
                                 $log.debug('Home::::ResolveHistory::'+option+'::'+params.start+'::'+params.end);
 
                                 if (option === 'entregas') {
@@ -106,6 +112,13 @@
             };
 
             $scope.mostrar = function() {
+                console.log('start');
+                console.log($scope.dateStart.date);
+                console.log('end');
+                console.log($scope.dateEnd.date);
+                console.log('option');
+                console.log($scope.option);
+
                 var start =  $scope.dateStart.date.toJSON().replace("T"," ").replace("Z","");
                 var end =  $scope.dateEnd.date.toJSON().replace("T"," ").replace("Z","");
                 $state.go('root.history', {option: $scope.option, start: start, end: end});

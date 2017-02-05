@@ -101,18 +101,22 @@ angular.module('globalService', [])
                                 if (flag === 0){
                                     estados.filtro_repartidor.push({n: order.mensajero, c: 1, id: order.id_mensajero});
                                 }
-                                switch (order.id_delivery_state) {
-                                    case '3':
-                                        ++estados.filtro_estado[3].c;
+                                switch (parseInt(order.id_delivery_state)) {
+                                    case 1:
+                                        ++estados.filtro_estado[0].c;
                                         break;
-                                    case '2':
-                                        ++estados.filtro_estado[2].c;
-                                        break;
-                                    case '1':
+                                    case 0:
+                                    case 2:
                                         ++estados.filtro_estado[1].c;
                                         break;
+                                    case 3:
+                                        ++estados.filtro_estado[2].c;
+                                        break;
+                                    case 4:
+                                        ++estados.filtro_estado[3].c;
+                                        break;
                                     default:
-                                        ++estados.filtro_estado[0].c;
+                                        ++estados.filtro_estado[1].c;
                                         break;
                                 }
 
