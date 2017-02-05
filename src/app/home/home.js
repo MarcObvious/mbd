@@ -134,8 +134,8 @@
                 $scope.ordersData = ordersData.data;
                 if (ordersData.data) {
                     $scope.ordersDataSliced = $scope.ordersData.slice(0, 6);
-                    $scope.positions = [{pos: [41.415674, 2.160047], name: 1, state_class: 'poi_encurso'}];
-
+                    //$scope.positions = [{pos: [41.415674, 2.160047], name: 1, state_class: 'poi_encurso'}];
+                    $scope.positions = [];
                     $scope.totalItems = $scope.ordersData.length;
 
                     $scope.currentPage = 1;
@@ -144,11 +144,15 @@
                     angular.forEach($scope.ordersData, function (data, index) {
                         var data2 = homeService.classTraductor(data);
                         $scope.ordersData[index] = data2;
-                        if (data.lat && data.lng) {
-                            $scope.positions.push({pos: [data2.lat, data2.lng], name: index, state_class: data2.state_class});
+
+                        var pickup_latlng = data.pickup_latlng.split(";");
+                        if (angular.isArray(pickup_latlng)) {
+                            $scope.positions.push({pos:[pickup_latlng[0], pickup_latlng[1]], name: index, state_class: data2.state_class});
                         }
 
+
                     });
+                    console.log($scope.positions);
 
                     $timeout(function() {
                         $rootScope.$emit('positions.positionsChange', {positions: $scope.positions});

@@ -20,7 +20,7 @@
                                 }
                                 else {
                                     var end = new Date();
-                                    var start = new Date(end.getTime() - 24*60*60*1000*7);
+                                    var start = new Date(end.getTime() - 24*60*60*10000*7);
                                     params.start = start.toJSON().replace("T"," ").replace("Z","");
                                     params.end = end.toJSON().replace("T"," ").replace("Z","");
                                 }
@@ -28,14 +28,14 @@
 
                                 if (option === 'entregas') {
                                     historyService.getAllEntregas(params).then(function(data) {
-                                        def.resolve({data: data, option: option, dates: params, name:'Histórico de entregas'});
+                                        def.resolve({data: data, option: option, dates: params, });
                                     }, function (err) {
                                         def.reject(err);
                                     });
                                 }
                                 else if (option === 'incidencias') {
                                     historyService.getAllIncidencias(params).then(function(data) {
-                                        def.resolve({data: data, option: option, dates: params, name:'Histórico de incidéncias'});
+                                        def.resolve({data: data, option: option, dates: params, });
                                     }, function (err) {
                                         def.reject(err);
                                     });
@@ -44,6 +44,15 @@
                                     def.reject(false);
                                 }
                                 return def.promise;
+                            }]),
+                        optionData: ([ '$q', '$log','$stateParams',
+                            function ( $q, $log, $stateParams) {
+                                if ($stateParams.option === 'entregas') {
+                                    return {option: $stateParams.option, name:'Histórico de entregas'};
+                                }
+                                else {
+                                    return {option: $stateParams.option, name:'Histórico de incidéncias'};
+                                }
                             }])
                     },
                     views: {
@@ -59,8 +68,8 @@
 
         }]);
 
-    app.controller('historyController', ['$log','$scope','$state', 'ordersData',
-        function ($log, $scope, $state, ordersData) {
+    app.controller('historyController', ['$log','$scope','$state', 'ordersData','optionData',
+        function ($log, $scope, $state, ordersData,optionData) {
 
             var init = function () {
                 $log.info('App:: Starting HomeController');
@@ -71,7 +80,7 @@
                 $scope.dateStart = {};
                 $scope.dateStart.format = 'dd-MM-yyyy';
                 $scope.dateStart.dateOptions = { formatYear: 'yy', startingDay: 1 };
-                $scope.dateStart.date = new Date(date.getTime() - 24*60*60*1000*7);
+                $scope.dateStart.date = new Date(date.getTime() - 24*60*60*10000*7);
                 $scope.dateStart.opened = false;
 
                 $scope.dateEnd = {};
@@ -79,6 +88,9 @@
                 $scope.dateEnd.dateOptions = { formatYear: 'yy', startingDay: 1 };
                 $scope.dateEnd.date = date;
                 $scope.dateEnd.opened = false;
+
+                $scope.option = optionData.option;
+                $scope.name = optionData.name;
 
                 if (ordersData.data) {
                     if(angular.isDefined(ordersData.dates.start)) {
@@ -88,8 +100,7 @@
                         $scope.dateEnd.date = new Date(Date.parse(ordersData.dates.end));
                     }
 
-                    $scope.option = ordersData.option;
-                    $scope.name = ordersData.name;
+
                     $scope.ordersData = ordersData.data;
 
                     $scope.ordersDataSliced = $scope.ordersData.slice(0, 15);
