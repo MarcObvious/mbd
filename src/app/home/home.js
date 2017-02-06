@@ -144,8 +144,8 @@
                 $scope.ordersData = ordersData.data;
                 if (ordersData.data) {
                     $scope.ordersDataSliced = $scope.ordersData.slice(0, 6);
-                    $scope.positions = [{pos: [41.415674, 2.160047], name: 1, state_class: 'poi_encurso'}];
-                    //$scope.positions = [];
+                   // $scope.positions = [{pos: [41.415674, 2.160047], name: 1, state_class: 'poi_encurso'}];
+                    $scope.positions = [];
                     $scope.totalItems = $scope.ordersData.length;
 
                     $scope.currentPage = 1;
