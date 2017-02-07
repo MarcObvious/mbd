@@ -113,21 +113,38 @@ angular.module('genericDirectives', [])
                 }
             };
         }])
+    .directive('back', ['$window',
+        function($window) {
+            return {
+                restrict: 'A',
+                link: function (scope, elem, attrs) {
+                    elem.bind('click', function () {
+                        $window.history.back();
+                    });
+                }
+            };
+        }])
 
     .directive('maps', [function() {
         return {
             templateUrl:'home/maps.tpl.html',
             restrict: 'E',
             replace: true,
-            controller: ('mapsController', ['$scope', '$log', '$rootScope',
-                function($scope, $log, $rootScope) {
+            controller: ('mapsController', ['$scope', '$log', '$rootScope', 'geolocationService',
+                function($scope, $log, $rootScope, geolocationService) {
+
                     var init = function() {
                         $log.debug('Maps::::mapsController::');
-                        //$scope.centerMap = [41.390205, 2.154007];
+                        $scope.centerMap = geolocationService.getNearestCity();
                     };
 
                     $rootScope.$on('positions.positionsChange', function(event, aValues) {
-                        $scope.centerMap = angular.isDefined(aValues.positions[0]) ? aValues.positions[0].pos : [41.390205, 2.154007];
+                        if(angular.isDefined(aValues.centerMap)) {
+                            $scope.centerMap = aValues.centerMap;
+                        }
+                        else {
+                            $scope.centerMap = geolocationService.getNearestCity();
+                        }
                         $scope.positions = aValues.positions;
                     });
 

@@ -39,8 +39,9 @@
     app.run(['$log', function ($log) {
     }]);
 
-    app.controller('AppController', ['$scope', '$log', function ($scope, $log) {
+    app.controller('AppController', ['$scope', '$log','geolocationService', function ($scope, $log, geolocationService) {
         $log.info('App:: Starting AppController');
+        $log.info('App::Geolocation::' + geolocationService.getNearestCity());
     }]);
 
     app.controller('FrontController', ['$scope', '$log', function ($scope, $log) {
@@ -55,6 +56,7 @@
     'ngResource',
     'ngAnimate',
     'globalService',
+    'geolocationService',
     'mbd.home',
     'mbd.history',
     'mbd.auth',
