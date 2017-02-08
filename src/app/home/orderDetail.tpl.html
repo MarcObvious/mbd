@@ -12,7 +12,7 @@
                 </div>
                 <hr>
                 <div class="col-lg-3">
-                    <h4><img src="../../assets/mbd_destinatario.svg" height="25px"> Destinatario: </h4>
+                    <h4><img src="../../assets/mbd_destinatario.svg" height="25px"> Destinatario </h4>
                     <p>{{orderData.firstname}} {{orderData.lastname}}</p>
                     <p class="order-detail-strong">{{orderData.address}}</p>
                     <p>{{orderData.zipcode}} {{orderData.city}}</p>
@@ -33,6 +33,35 @@
                 </div>
             </div>
 
+        </div>
+    </div>
+    <div ng-if="orderData.incidences" class="panel panel-default">
+        <div class="panel-body">
+            <div class="col-lg-12">
+                <div class="order-detail-title">
+                    <h3 class="order-detail-order"> Incidéncias pedido #{{orderData.id_order}}</h3>
+                    <h3 class="order-detail-status incidencia" ><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></h3>
+                </div>
+                <hr>
+                <div ng-repeat="(key,incidence) in orderData.incidences">
+                    <div class="col-lg-3">
+                        <h4><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Incidéncia #{{incidence.id_incidence}}</h4>
+                        <p>Añadido a {{incidence.date_add}}</p>
+                        <p class="order-detail-strong">Ultima actualización a {{incidence.date_add}}</p>
+                        <p>Tipo {{incidence.id_incidence_type}}</p>
+                    </div>
+                    <div class="col-lg-3">
+                        <h4><img src="../../assets/mbd_check.svg" height="25px"> Estado</h4>
+                        <p>{{incidence.incidence_name}}</p>
+                    </div>
+                    <div class="col-lg-6">
+                        <h4><img src="../../assets/mbd_observaciones.svg" height="25px"> Observaciones</h4>
+                        <p>{{incidence.incidence_comment}}</p>
+                    </div>
+                    <hr ng-if="key < orderData.incidences.length-1" class="col-lg-11">
+                </div>
+
+            </div>
         </div>
     </div>
 </div>

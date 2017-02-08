@@ -125,42 +125,23 @@
                     $timeout(function() {
                         $rootScope.$emit('positions.positionsChange', {centerMap: centerMap, positions: positions});
                     });
-
-
                 }
-            };
-
-            $scope.goBack = function(){
-                $state.go('root.home.ordergrid');
-            };
-
-            $scope.openIncidences = function () {
-                // $log.debug($scope.models.selected.color);
-                $scope.modalInstance = $uibModal.open({
-                    templateUrl: 'newsletterMaker/setImage.modal.tpl.html',
-                    size: 'lg',
-                    controller: 'modalSetImageController',
-                    scope: {
-                        incidences: $scope.orderData.incidences
-                    }
-                });
             };
 
             init();
         }]);
 
-    app.controller('orderGridController', ['$log','$scope','$state','ordersData','$uibModal', 'NgMap','$rootScope','$timeout', 'homeService', '$stateParams',
-        function ($log, $scope, $state, ordersData, $uibModal, NgMap, $rootScope, $timeout, homeService, $stateParams) {
+    app.controller('orderGridController', ['$log','$scope','$state','ordersData', 'NgMap','$rootScope','$timeout', 'homeService', '$stateParams',
+        function ($log, $scope, $state, ordersData, NgMap, $rootScope, $timeout, homeService, $stateParams) {
 
             var init = function () {
                 $log.info('App:: Starting HomeController');
-                $scope.totalItems = 0;
 
+                $scope.totalItems = 0;
                 $scope.filterBy = ordersData.filterName;
                 $scope.ordersData = ordersData.data;
+
                 if (ordersData.data) {
-                    //$scope.ordersDataSliced = $scope.ordersData.slice(0, 6);
-                   // $scope.positions = [{pos: [41.415674, 2.160047], name: 1, state_class: 'poi_encurso'}];
                     $scope.positions = [];
                     $scope.totalItems = $scope.ordersData.length;
 
@@ -183,15 +164,13 @@
                         $rootScope.$emit('positions.positionsChange', {positions: $scope.positions});
                     });
                 }
-
             };
 
             $scope.pageChanged = function () {
                 var begin = (($scope.currentPage - 1) * $scope.numPerPage), end = begin + $scope.numPerPage;
                 $scope.ordersDataSliced = $scope.ordersData.slice(begin, end);
 
-                $state.go('root.home.ordergrid',{page:$scope.currentPage},{notify:false, reload:false, location:'replace', inherit:true
-                });
+                $state.go('root.home.ordergrid',{page:$scope.currentPage},{notify:false, reload:false, location:'replace', inherit:true});
             };
 
             $scope.openOrder = function (id_order) {

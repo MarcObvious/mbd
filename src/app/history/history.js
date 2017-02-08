@@ -3,7 +3,7 @@
         function ($stateProvider) {
             $stateProvider
                 .state('root.history', {
-                    url: '/history/?:{option}&:{start}&:{end}',
+                    url: '/history/?:{page}:{option}:{start}:{end}',
                     parent: 'root',
                     resolve: {
                         autentica: (['authService',  function (authService) {
@@ -68,8 +68,8 @@
 
         }]);
 
-    app.controller('historyController', ['$log','$scope','$state', 'ordersData','optionData',
-        function ($log, $scope, $state, ordersData,optionData) {
+    app.controller('historyController', ['$log','$scope','$state', 'ordersData', 'optionData', '$stateParams',
+        function ($log, $scope, $state, ordersData, optionData, $stateParams) {
 
             var init = function () {
                 $log.info('App:: Starting HomeController');
@@ -102,12 +102,15 @@
 
 
                     $scope.ordersData = ordersData.data;
+                    $scope.numPerPage = 15;
+                    $scope.currentPage = $stateParams.page ? $stateParams.page : 1;
 
-                    $scope.ordersDataSliced = $scope.ordersData.slice(0, 15);
+                    var begin = (($scope.currentPage - 1) * $scope.numPerPage), end = begin + $scope.numPerPage;
+                    $scope.ordersDataSliced = $scope.ordersData.slice(begin, end);
+
                     $scope.totalItems = $scope.ordersData.length;
 
-                    $scope.currentPage = 2;
-                    $scope.numPerPage = 15;
+
 
                 }
 
@@ -120,6 +123,8 @@
             $scope.pageChanged = function () {
                 var begin = (($scope.currentPage - 1) * $scope.numPerPage), end = begin + $scope.numPerPage;
                 $scope.ordersDataSliced = $scope.ordersData.slice(begin, end);
+
+                $state.go('root.history',{page:$scope.currentPage},{notify:false, reload:false, location:'replace', inherit:true});
             };
 
             $scope.mostrar = function() {
