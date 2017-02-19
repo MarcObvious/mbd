@@ -109,9 +109,6 @@
                     $scope.ordersDataSliced = $scope.ordersData.slice(begin, end);
 
                     $scope.totalItems = $scope.ordersData.length;
-
-
-
                 }
 
             };
@@ -135,8 +132,8 @@
                 console.log('option');
                 console.log($scope.option);
 
-                var start =  $scope.dateStart.date.toJSON().replace("T"," ").replace("Z","");
-                var end =  $scope.dateEnd.date.toJSON().replace("T"," ").replace("Z","");
+                var start =  $scope.dateStart.date.toJSON().substr(0,10);
+                var end =  $scope.dateEnd.date.toJSON().substr(0,10);
                 $state.go('root.history', {option: $scope.option, start: start, end: end});
             };
 
