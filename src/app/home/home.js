@@ -33,14 +33,19 @@
 
                                 if (filter_by === 'repartidor' && parseInt(id) !== 0) {
                                     homeService.getOrdersByDeliveryMan({id: id}).then(function(data){
-                                        def.resolve({data: data, filterName:'Pedidos del repartidor ' + id});
+                                        var name = id;
+                                        if (angular.isDefined(data[0].mensajero)) {
+                                            name = '"' + data[0].mensajero + '"';
+                                        }
+                                        def.resolve({data: data, filterName:'Pedidos del repartidor: ' + name});
                                     }, function (err) {
                                         def.reject(err);
                                     });
                                 }
                                 else if (filter_by === 'estado' && parseInt(id) !== 0) {
                                     homeService.getOrdersByStatus({id: id}).then(function(data){
-                                        def.resolve({data: data, filterName:'Pedidos en estado ' + id});
+                                        var name = homeService.estados(id);
+                                        def.resolve({data: data, filterName:'Pedidos en estado: ' + name});
                                     }, function (err) {
                                         def.reject(err);
                                     });

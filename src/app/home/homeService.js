@@ -113,7 +113,7 @@ angular.module('homeService', [])
                             break;
                         case 3:
                             orderData.state_class = 'poi_encurso';
-                            orderData.state_name = 'En curso';
+                            orderData.state_name = 'Entregado';
                             break;
                         case 4:
                             orderData.state_class = 'poi_incidencia';
@@ -126,6 +126,13 @@ angular.module('homeService', [])
                     }
 
                     return orderData;
+                },
+                estados: function (id) {
+                    var estados = {1:'"En curso"', 0:'"Todos"', 2:'"Pendiente"', 3:'"Entregado"', 4:'"Incidéncia"'};
+                    if (angular.isDefined(estados[id])) {
+                        return estados[id];
+                    }
+                    return 'Todos';
                 }
 
             };

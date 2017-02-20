@@ -12,7 +12,7 @@
                 <a href="" ng-click="check(1)" class="sub-hedd-text">Estado<span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level" uib-collapse="collapseVar!=1">
                     <li ui-sref-active="active" ng-repeat="estado in sidebarContent.filtro_estado">
-                        <a class="sub-sub-hedd-text" ui-sref="root.home.ordergrid({ filter_by:'estado', page: 1, id:{{estado.id}}})">{{estado.n}} <span class="head-text">({{estado.c}})</span></a>
+                        <a ng-if="estado.show" class="sub-sub-hedd-text" ui-sref="root.home.ordergrid({ filter_by:'estado', page: 1, id:{{estado.id}}})">{{estado.n}} <span class="head-text">({{estado.c}})</span></a>
                     </li>
                 </ul>
             </li>
@@ -20,7 +20,7 @@
                 <a href="" ng-click="check(2)" class="sub-hedd-text">Repatidor<span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level" uib-collapse="collapseVar!=2">
                     <li ui-sref-active="active" ng-repeat="repartidor in sidebarContent.filtro_repartidor track by $index">
-                        <a class="sub-sub-hedd-text" ui-sref="root.home.ordergrid({ filter_by:'repartidor', page: 1, id:{{repartidor.id}} })">{{repartidor.n}} <span class="head-text">({{repartidor.c}})</span></a>
+                        <a ng-if="repartidor.show" class="sub-sub-hedd-text" ui-sref="root.home.ordergrid({ filter_by:'repartidor', page: 1, id:{{repartidor.id}} })">{{repartidor.n}} <span class="head-text">({{repartidor.c}})</span></a>
                     </li>
                 </ul>
             </li>

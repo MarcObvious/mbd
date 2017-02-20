@@ -79,10 +79,10 @@ angular.module('globalService', [])
                     var cpedidos = 0;
                     var estados = {
                         filtro_estado: [
-                            {n: 'En reparto', c: 0, id: 1},
-                            {n: 'Pendiente', c: 0, id: 2},
-                            {n: 'Entregado', c: 0, id: 3},
-                            {n: 'Incidéncias', c: 0, id: 4}],
+                            {n: 'En reparto', c: 0, id: 1, show: false},
+                            {n: 'Pendiente', c: 0, id: 2, show: true},
+                            {n: 'Entregado', c: 0, id: 3, show: true},
+                            {n: 'Incidéncias', c: 0, id: 4, show:true}],
                         filtro_repartidor: []
                     };
                     this.api('ordersfront').get({}, {}, function (data) {
@@ -99,7 +99,10 @@ angular.module('globalService', [])
                                 });
 
                                 if (flag === 0){
-                                    estados.filtro_repartidor.push({n: order.mensajero, c: 1, id: order.id_mensajero});
+
+                                        estados.filtro_repartidor.push({n: order.mensajero, c: 1, id: order.id_mensajero, show: parseInt(order.id_mensajero) !== 0});
+
+
                                 }
                                 switch (parseInt(order.id_delivery_state)) {
                                     case 1:
@@ -122,8 +125,8 @@ angular.module('globalService', [])
 
                             });
                         }
-                        estados.filtro_estado.push({n: 'Todos los pedidos', c: cpedidos, id:0});
-                        estados.filtro_repartidor.push({n: 'Todos los repartidores', c: cpedidos, id: 0});
+                        estados.filtro_estado.push({n: 'Todos los pedidos', c: cpedidos, id:0, show:true});
+                        estados.filtro_repartidor.push({n: 'Todos los repartidores', c: cpedidos, id: 0, show:true});
 
                         def.resolve(estados);
                     }, function (err) {
