@@ -3,9 +3,12 @@
         <div class="google-maps">
             <ng-map class="gmap" zoom="14" center="{{centerMap}}" >
                 <custom-marker ng-repeat="p in positions" position="{{p.pos}}" >
-
-                    <img  width="64" src="../../assets/mbd_{{p.state_class}}.svg" align="left" />
-
+                    <img  style="position:relative" width="64" src="../../assets/mbd_{{p.state_class}}.svg" />
+                    <div ng-if="p.id_order" class="custom-marker-box" style="background-color: #ffffff; float:right; padding: 0 10px;">
+                        <h4>{{p.id_order}}, {{p.mensajero}}</h4>
+                        <p>{{p.address}}</p>
+                        <p>{{p.hora_entrega}} - {{p.hora_entrega_max}}</p>
+                    </div>
                 </custom-marker>
             </ng-map>
         </div>

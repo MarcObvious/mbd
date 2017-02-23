@@ -114,7 +114,16 @@
                     $scope.orderData = homeService.classTraductor(orderData);
 
                     if (angular.isDefined(orderData.lat) && angular.isDefined(orderData.lng)) {
-                        positions.push({pos:[orderData.lat, orderData.lng], name: 0, state_class: orderData.state_class});
+                        positions.push({
+                            pos:[orderData.lat, orderData.lng],
+                            name: 0,
+                            state_class: orderData.state_class,
+                            id_order: orderData.id_order,
+                            hora_entrega: orderData.hora_entrega,
+                            hora_entrega_max: orderData.hora_entrega,
+                            address: orderData.address,
+                            mensajero: orderData.mensajero
+                        });
                         centerMap = [orderData.lat, orderData.lng];
                     }
 
@@ -122,7 +131,10 @@
                         homeService.getLocation({id: orderData.id_mensajero}).then(function(data){
 
                             if(angular.isDefined(data[0])) {
-                                positions.push({pos:[data[0].lat, data[0].lng], name: 0, state_class: 'motorbike'});
+                                positions.push({
+                                    pos:[data[0].lat, data[0].lng],
+                                    name: 0,
+                                    state_class: 'motorbike'});
                             }
                         });
                     }
@@ -161,7 +173,16 @@
                         $scope.ordersData[index] = data2;
 
                         if (angular.isDefined(data.lat) && angular.isDefined(data.lng)) {
-                            $scope.positions.push({pos:[data.lat, data.lng], name: index, state_class: data2.state_class});
+                            $scope.positions.push({
+                                pos:[data.lat, data.lng],
+                                name: index,
+                                state_class: data2.state_class,
+                                id_order: ordersData.id_order,
+                                hora_entrega: ordersData.hora_entrega,
+                                hora_entrega_max: ordersData.hora_entrega,
+                                address: ordersData.address,
+                                mensajero: ordersData.mensajero
+                            });
                         }
                     });
 
