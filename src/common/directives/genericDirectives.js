@@ -136,6 +136,13 @@ angular.module('genericDirectives', [])
                     var init = function() {
                         $log.debug('Maps::::mapsController::');
                         $scope.centerMap = geolocationService.getNearestCity();
+                        $scope.showInfo = [];
+                    };
+                    $scope.openCustomMarker = function(i){
+                        if(angular.isDefined(i)) {
+                            $scope.showInfo[i] = !$scope.showInfo[i];
+                        }
+
                     };
 
                     $rootScope.$on('positions.positionsChange', function(event, aValues) {
@@ -146,6 +153,10 @@ angular.module('genericDirectives', [])
                             $scope.centerMap = geolocationService.getNearestCity();
                         }
                         $scope.positions = aValues.positions;
+                        angular.forEach($scope.positions, function (pos) {
+                            $scope.showInfo[pos.id_order] = false;
+                        });
+
                     });
 
                     init();
