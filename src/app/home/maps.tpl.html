@@ -4,7 +4,7 @@
             <ng-map class="gmap" zoom="14" center="{{centerMap}}" >
                 <custom-marker ng-repeat="p in positions track by $index" position="{{p.pos}}" >
                     <img  style="position:relative" width="64" src="../../assets/mbd_{{p.state_class}}.svg" ng-click="openCustomMarker(p.id_order)"/>
-                    <div ng-show="p.id_order && showInfo[p.id_order]" class="custom-marker-box" style=" background-color: #ffffff; padding: 10px;">
+                    <div ng-show="p.id_order && showInfo[p.id_order]" class="custom-marker-box" style=" background-color: #ffffff; border: 1px solid #8e908c;padding: 10px;">
                         <h4>{{p.id_order}}, {{p.mensajero}}</h4>
                         <p>{{p.address}}</p>
                         <p>{{p.hora_entrega}} - {{p.hora_entrega_max}}</p>
