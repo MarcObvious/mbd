@@ -3,7 +3,7 @@
         function ($stateProvider) {
             $stateProvider
                 .state('root.routes', {
-                    url: '/routes/?:{page}:{option}:{start}:{end}',
+                    url: '/routes/?:{page}:{option}:{start}:{city}',
                     parent: 'root',
                     resolve: {
                         autentica: (['authService',  function (authService) {
@@ -21,6 +21,8 @@
                                     var start = new Date();
                                     params.start = start.toJSON().substr(0,10);
                                 }
+                                params.city = $stateParams.city ? $stateParams.city : 'bcn';
+
                                 $log.debug('Home::::Resolveroutes::'+option+'::'+params.start+'::'+params.end);
 
                                 routesService.getRoutes(params).then(function(data) {
@@ -56,14 +58,8 @@
                 $scope.dateStart.format = 'dd-MM-yyyy';
                 $scope.dateStart.dateOptions = { formatYear: 'yy', startingDay: 1 };
                 $scope.dateStart.opened = false;
-                if(angular.isDefined($stateParams.start)) {
-                    $scope.dateStart.date = new Date(Date.parse($stateParams.start));
-                }
-                else {
-                    $scope.dateStart.date = new Date();
-                }
-                console.log();
-
+                $scope.dateStart.date = angular.isDefined($stateParams.start) ? new Date(Date.parse($stateParams.start)) : new Date();
+                $scope.city = $stateParams.city ? $stateParams.city : 'bcn';
 
                 $scope.vm = {};
                 $scope.vm.tableParams = new NGTableParams({count:25, sorting:{route_id:'asc'}}, {data: [],counts:[]});
@@ -84,7 +80,7 @@
                                 order_id : deliveries.order_id,
                                 address : deliveries.info[0].address,
                                 city : deliveries.info[0].city,
-                                zipcode : deliveries.info[0].zipcode,
+                                zipcode : deliveries.info[0].zipcode.toString(),
                                 hora_entrega : deliveries.info[0].hora_entrega
                             };
                             $scope.routesDataA.push(d);
@@ -102,7 +98,7 @@
 
             $scope.mostrar = function() {
                 var start =  $scope.dateStart.date.toJSON().substr(0,10);
-                $state.go('root.routes', {option: $scope.option, start: start});
+                $state.go('root.routes', {start: start, city:$scope.city });
             };
 
             $scope.goBack = function(){
