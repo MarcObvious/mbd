@@ -65,7 +65,7 @@ submodules we include, as that is where our app's functionality is really
 defined.  So all we need to do in `app.js` is specify a default route to follow,
 which route of course is defined in a submodule. In this case, our `home` module
 is where we want to start, which has a defined route for `/home` in
-`src/app/home/history.js`.
+`src/app/home/routes.js`.
 
 ```js
 .config( function myAppConfig ( $stateProvider, $urlRouterProvider ) {

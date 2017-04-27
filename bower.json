@@ -39,7 +39,8 @@
     "angular-sanitize": "~1.4.6",
     "ui-select": "angular-ui-select#~0.13.2",
     "angular-local-storage": "~0.5.2",
-    "ngmap": "~1.17.8"
-
+    "ngmap": "~1.17.8",
+    "ng-table": "~0.8.3",
+    "ng-csv": "^0.3.6"
   }
 }

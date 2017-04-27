@@ -90,9 +90,11 @@ module.exports = function (grunt) {
                 'vendor/jquery/dist/jquery.min.js',
                 'vendor/bootstrap/dist/js/bootstrap.min.js',
                 'vendor/json3/lib/json3.min.js',
+                'vendor/ng-table/dist/ng-table.js',
                 'vendor/ui-select/dist/select.js',
                 'vendor/angular-local-storage/dist/angular-local-storage.js',
-                'vendor/ngmap/build/scripts/ng-map.min.js'
+                'vendor/ngmap/build/scripts/ng-map.min.js',
+                'vendor/ng-csv/build/ng-csv.js'
             ],
             css: [
             ],

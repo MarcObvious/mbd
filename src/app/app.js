@@ -59,6 +59,7 @@
     'geolocationService',
     'mbd.home',
     'mbd.history',
+    'mbd.routes',
     'mbd.auth',
     'LocalStorageModule',
     'ui.bootstrap',
@@ -68,6 +69,8 @@
     'ui.router',
     'cInterceptor',
     'genericDirectives',
-    'ngMap'
+    'ngMap',
+    'ngTable',
+    'ngCsv'
 
 ])));
