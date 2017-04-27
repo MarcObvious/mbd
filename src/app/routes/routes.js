@@ -65,7 +65,7 @@
                 $scope.vm.tableParams = new NGTableParams({count:25, sorting:{route_id:'asc'}}, {data: [],counts:[]});
 
                 $scope.name = 'Organizador de rutas';
-                $scope.name_csv = 'Rutas_' + $scope.dateStart.date.toJSON().substr(0,10);
+                $scope.name_csv = 'Rutas_' + $scope.city +'_'+ $scope.dateStart.date.toJSON().substr(0,10);
                 $scope.routesData = false;
                 console.log(routesData.data);
                 if (angular.isDefined(routesData.data)) {
