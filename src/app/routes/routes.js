@@ -55,6 +55,7 @@
                 routesService.getRoutes({city: $scope.city, start:start}).then( function(data) {
                     $scope.routesData = 1;
                     $scope.routesDataA = data;
+                    $scope.totalItems = $scope.routesDataA.length;
                     $scope.vm.tableParams = new NGTableParams({count:25, sorting:{route_id:'asc'}}, {data: $scope.routesDataA ,counts:[25,50,100,200]});
                 }, function (err) {
                     $log.error(err);
