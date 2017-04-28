@@ -23,8 +23,25 @@ angular.module('routesService', [])
                 //getdeliveryroutes/2017-04-28
                 getRoutes: function (params) {
                     var def = $q.defer();
-                    this.api('getdeliveryroutes/'+params.start+'/'+params.city).get({}, {}, function(data){
-                        def.resolve(data.data);
+                    this.api('getdeliveryroutes/'+params.start+'/'+params.city).get({}, {}, function(routesData){
+
+                        var result = [];
+                        angular.forEach(routesData.data.good_routes, function (good_routes, index) {
+                            angular.forEach(good_routes.deliveries, function (deliveries, index) {
+                                var d = {
+                                    route_id : good_routes.route_id,
+                                    order_id : deliveries.order_id,
+                                    address : deliveries.info[0].address,
+                                    city : deliveries.info[0].city,
+                                    zipcode : deliveries.info[0].zipcode.toString(),
+                                    hora_entrega : deliveries.info[0].hora_entrega
+                                };
+                                result.push(d);
+                            });
+                        });
+
+                        def.resolve(result);
+
                     }, function (err) {
                         def.reject(err);
                     });

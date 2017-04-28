@@ -36,8 +36,15 @@
 
 
             </div>
+            <div ng-if="routesData==0" class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <i>Cargando {{name_csv}}... <img width="20px" height="20px" src="../../assets/rolling.svg"></i>
+                    </div>
+                </div>
+            </div>
 
-            <div ng-if="routesData!=false" class="col-lg-12">
+            <div ng-if="routesData==1" class="col-lg-12">
                 <div class="panel panel-default">
                     <div class="panel-body">
                         <table ng-table="vm.tableParams" class="table table-striped table-bordered text-center table-hover" show-filter="true">
@@ -65,16 +72,13 @@
             </div>
 
 
-            <div ng-if="routesData==false" class="col-lg-12">
+            <div ng-if="routesData==2" class="col-lg-12">
                 <div class="panel panel-default">
                     <div class="panel-body">
                         <i>No hay información para ese dia.</i>
-
                     </div>
                 </div>
-
             </div>
-
         </div>
     </div>
 </div>
