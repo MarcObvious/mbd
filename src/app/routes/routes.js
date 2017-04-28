@@ -79,7 +79,6 @@
             init();
         }]);
 
-
 }(angular.module("mbd.routes", [
     'ui.router',
     'ngAnimate',
