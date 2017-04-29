@@ -125,13 +125,6 @@
             };
 
             $scope.mostrar = function() {
-                console.log('start');
-                console.log($scope.dateStart.date);
-                console.log('end');
-                console.log($scope.dateEnd.date);
-                console.log('option');
-                console.log($scope.option);
-
                 var start =  $scope.dateStart.date.toJSON().substr(0,10);
                 var end =  $scope.dateEnd.date.toJSON().substr(0,10);
                 $state.go('root.history', {option: $scope.option, start: start, end: end});
