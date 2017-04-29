@@ -27,7 +27,7 @@
                 </div>
                 &nbsp;
                 <div class="col-lg-2">
-                    <button class="btn btn-danger btn-block" ng-csv="routesDataA" csv-header="['Ruta', 'Pedido', 'Dirección', 'Población', 'CP','Hora de entrega']" filename="{{name_csv}}.csv">CSV</button>
+                    <button class="btn btn-danger btn-block" add-bom field-separator=";"  ng-csv="routesDataA" csv-header="['Ruta', 'Pedido', 'Dirección', 'Población', 'CP','Hora de entrega']" filename="{{name_csv}}.csv">CSV</button>
                 </div>
                 <div class="col-lg-3 radio_buttons">
                     <label><input type="radio" ng-model="city" value="bcn"> Barcelona</label>

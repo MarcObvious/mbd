@@ -177,11 +177,11 @@
                                 pos:[data.lat, data.lng],
                                 name: index,
                                 state_class: data2.state_class,
-                                id_order: ordersData.id_order,
-                                hora_entrega: ordersData.hora_entrega,
-                                hora_entrega_max: ordersData.hora_entrega,
-                                address: ordersData.address,
-                                mensajero: ordersData.mensajero
+                                id_order: data.id_order,
+                                hora_entrega: data.hora_entrega,
+                                hora_entrega_max: data.hora_entrega,
+                                address: data.address,
+                                mensajero: data.mensajero
                             });
                         }
                     });

@@ -139,6 +139,9 @@ angular.module('genericDirectives', [])
                         $scope.showInfo = [];
                     };
                     $scope.openCustomMarker = function(i){
+                        angular.forEach($scope.positions, function (pos) {
+                            $scope.showInfo[pos.id_order] = false;
+                        });
                         if(angular.isDefined(i)) {
                             $scope.showInfo[i] = !$scope.showInfo[i];
                         }
