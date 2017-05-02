@@ -30,8 +30,6 @@
                                 var filter_by = $stateParams.filter_by;
                                 var id = $stateParams.id;
                                 var date = $stateParams.date;
-                                console.log('patata');
-                                console.log(date);
                                 $log.debug('Home::::ResolveOrderGrid::'+filter_by+'::'+id);
 
                                 if (filter_by === 'repartidor' && parseInt(id) !== 0) {
@@ -168,7 +166,6 @@
                 $scope.dateStart.dateOptions = { formatYear: 'yy', startingDay: 1 };
                 $scope.dateStart.date = new Date(date.getTime() + 60*60*10000);
                 $scope.dateStart.opened = false;
-                console.log($scope.dateStart.date);
 
                 if (ordersData.data) {
                     $scope.positions = [];
@@ -178,8 +175,6 @@
                     $scope.numPerPage = 6;
 
                     if(angular.isDefined(ordersData.date)) {
-                        console.log('HOW?!');
-                        console.log(ordersData.date);
                         $scope.dateStart.date = new Date(Date.parse(ordersData.date));
                     }
 
@@ -217,8 +212,6 @@
 
             $scope.mostrar = function() {
                 var start =  $scope.dateStart.date.toJSON().substr(0,10);
-                console.log($scope.dateStart.date.toJSON().substr(0,10));
-                console.log('????????????????????');
                 $state.go('root.home.ordergrid', {option: $scope.option, date: start});
             };
 

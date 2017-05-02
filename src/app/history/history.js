@@ -72,7 +72,7 @@
         function ($log, $scope, $state, ordersData, optionData, $stateParams) {
 
             var init = function () {
-                $log.info('App:: Starting HomeController');
+                $log.info('App:: Starting HistoryController');
                 $scope.totalItems = 0;
 
                 var date = new Date();
