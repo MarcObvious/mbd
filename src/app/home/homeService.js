@@ -64,7 +64,7 @@ angular.module('homeService', [])
 
                 getOrdersByDeliveryMan: function (params) {
                     var def = $q.defer();
-                    this.api('orders_by_deliveryman/'+ params.id).get({}, {}, function (data) {
+                    this.api('orders_by_deliveryman/'+ params.id).get({date:params.date}, {}, function (data) {
                         def.resolve(data.data);
                     }, function (err) {
                         def.reject(err);
@@ -73,7 +73,7 @@ angular.module('homeService', [])
                 },
                 getOrdersByStatus: function (params) {
                     var def = $q.defer();
-                    this.api('ordersfront/'+ params.id).get({}, {}, function (data) {
+                    this.api('ordersfront/'+ params.id).get({date:params.date}, {}, function (data) {
                         def.resolve(data.data);
                     }, function (err) {
                         def.reject(err);

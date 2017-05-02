@@ -21,7 +21,7 @@
                     }
                 })
                 .state('root.home.ordergrid', {
-                    url: '/?:{page}:{filter_by}/:{id}',
+                    url: '/?:{page}:{filter_by}:{date}/:{id}',
                     parent: 'root.home',
                     resolve: {
                         ordersData: (['homeService', '$q', '$log','$stateParams',
@@ -29,30 +29,31 @@
                                 var def = $q.defer();
                                 var filter_by = $stateParams.filter_by;
                                 var id = $stateParams.id;
+                                var date = $stateParams.date;
                                 $log.debug('Home::::ResolveOrderGrid::'+filter_by+'::'+id);
 
                                 if (filter_by === 'repartidor' && parseInt(id) !== 0) {
-                                    homeService.getOrdersByDeliveryMan({id: id}).then(function(data){
+                                    homeService.getOrdersByDeliveryMan({id: id, date: date}).then(function(data){
                                         var name = id;
                                         if (angular.isDefined(data[0].mensajero)) {
                                             name = '"' + data[0].mensajero + '"';
                                         }
-                                        def.resolve({data: data, filterName:'Pedidos del repartidor: ' + name});
+                                        def.resolve({data: data, filterName:'Pedidos del repartidor: ' + name, date: date});
                                     }, function (err) {
                                         def.reject(err);
                                     });
                                 }
                                 else if (filter_by === 'estado' && parseInt(id) !== 0) {
-                                    homeService.getOrdersByStatus({id: id}).then(function(data){
+                                    homeService.getOrdersByStatus({id: id, date: date}).then(function(data){
                                         var name = homeService.estados(id);
-                                        def.resolve({data: data, filterName:'Pedidos en estado: ' + name});
+                                        def.resolve({data: data, filterName:'Pedidos en estado: ' + name, date: date});
                                     }, function (err) {
                                         def.reject(err);
                                     });
                                 }
                                 else {
-                                    homeService.getAllOrders().then(function (data) {
-                                        def.resolve({data: data, filterName:'Todos los pedidos'});
+                                    homeService.getAllOrders({date: date}).then(function (data) {
+                                        def.resolve({data: data, filterName:'Todos los pedidos', date: date});
                                     }, function (err) {
                                         def.reject(err);
                                     });
@@ -158,12 +159,24 @@
                 $scope.filterBy = ordersData.filterName;
                 $scope.ordersData = ordersData.data;
 
+                var date = new Date();
+
+                $scope.dateStart = {};
+                $scope.dateStart.format = 'dd-MM-yyyy';
+                $scope.dateStart.dateOptions = { formatYear: 'yy', startingDay: 1 };
+                $scope.dateStart.date = new Date(date.getTime() + 60*60*10000);
+                $scope.dateStart.opened = false;
+
                 if (ordersData.data) {
                     $scope.positions = [];
                     $scope.totalItems = $scope.ordersData.length;
 
                     $scope.currentPage = $stateParams.page ? $stateParams.page : 1;
                     $scope.numPerPage = 6;
+
+                    if(angular.isDefined(ordersData.date)) {
+                        $scope.dateStart.date = new Date(Date.parse(ordersData.date));
+                    }
 
                     var begin = (($scope.currentPage - 1) * $scope.numPerPage), end = begin + $scope.numPerPage;
                     $scope.ordersDataSliced = $scope.ordersData.slice(begin, end);
@@ -190,6 +203,16 @@
                         $rootScope.$emit('positions.positionsChange', {positions: $scope.positions});
                     });
                 }
+
+            };
+
+            $scope.openDatepicker = function(date) {
+                $scope[date].opened = true;
+            };
+
+            $scope.mostrar = function() {
+                var start =  $scope.dateStart.date.toJSON().substr(0,10);
+                $state.go('root.home.ordergrid', {option: $scope.option, date: start});
             };
 
             $scope.pageChanged = function () {

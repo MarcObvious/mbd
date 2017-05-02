@@ -134,16 +134,22 @@ angular.module('genericDirectives', [])
                 function($scope, $log, $rootScope, geolocationService) {
 
                     var init = function() {
+                        $scope.id_order = null;
                         $log.debug('Maps::::mapsController::');
                         $scope.centerMap = geolocationService.getNearestCity();
                         $scope.showInfo = [];
                     };
-                    $scope.openCustomMarker = function(i){
+                    $scope.openCustomMarker = function(order){
                         angular.forEach($scope.positions, function (pos) {
                             $scope.showInfo[pos.id_order] = false;
                         });
-                        if(angular.isDefined(i)) {
-                            $scope.showInfo[i] = !$scope.showInfo[i];
+                        if(angular.isDefined(order.id_order) && $scope.id_order !== order.id_order) {
+                            $scope.showInfo[order.id_order] = !$scope.showInfo[order.id_order];
+                            $scope.id_order = order.id_order;
+                            //$scope.centerMap = order.pos;
+                        }
+                        else {
+                            $scope.id_order = null;
                         }
 
                     };
