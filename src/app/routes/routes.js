@@ -56,7 +56,7 @@
                     $scope.routesData = 1;
                     $scope.routesDataA = data;
                     $scope.totalItems = $scope.routesDataA.length;
-                    $scope.vm.tableParams = new NGTableParams({count:25, sorting:{route_id:'asc'}}, {data: $scope.routesDataA ,counts:[25,50,100,200]});
+                    $scope.vm.tableParams = new NGTableParams({count:500, sorting:{route_id:'asc'}}, {data: $scope.routesDataA ,counts:[50,100,200,500,1000]});
                 }, function (err) {
                     $log.error(err);
                     $scope.routesData = 2;
