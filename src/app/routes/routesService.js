@@ -23,7 +23,7 @@ angular.module('routesService', [])
                 //getdeliveryroutes/2017-04-28
                 getRoutes: function (params) {
                     var def = $q.defer();
-                    this.api('getdeliveryroutes/'+params.start+'/'+params.city).get({}, {}, function(routesData){
+                    this.api('getdeliveryroutes/'+params.start+'/'+params.city+'/'+params.margin).get({}, {}, function(routesData){
 
                         var result = [];
                         angular.forEach(routesData.data.good_routes, function (good_routes, index) {

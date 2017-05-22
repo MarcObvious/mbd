@@ -3,7 +3,7 @@
         function ($stateProvider) {
             $stateProvider
                 .state('root.routes', {
-                    url: '/routes/?:{page}:{option}:{start}:{city}',
+                    url: '/routes/?:{page}:{option}:{start}:{city}:{margin}',
                     parent: 'root',
                     resolve: {
                         autentica: (['authService',  function (authService) {
@@ -43,6 +43,7 @@
                 $scope.dateStart.date = new Date(Date.parse(start));
 
                 $scope.city = $stateParams.city ? $stateParams.city : 'bcn';
+                $scope.city = $stateParams.margin ? $stateParams.margin : '0';
 
                 $scope.vm = {};
                 $scope.vm.tableParams = new NGTableParams({count:25, sorting:{route_id:'asc'}}, {data: [],counts:[]});
@@ -70,7 +71,7 @@
 
             $scope.mostrar = function() {
                 var start =  $scope.dateStart.date.toJSON().substr(0,10);
-                $state.go('root.routes', {start: start, city:$scope.city });
+                $state.go('root.routes', {start: start, city:$scope.city,margin:$scope.margin });
             };
 
             $scope.goBack = function(){
