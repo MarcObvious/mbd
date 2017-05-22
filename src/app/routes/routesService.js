@@ -23,6 +23,12 @@ angular.module('routesService', [])
                 //getdeliveryroutes/2017-04-28
                 getRoutes: function (params) {
                     var def = $q.defer();
+                    if(!params.city){
+                        params.city='bcn';
+                    }
+                    if(!params.margin){
+                        params.margin=10;
+                    }
                     this.api('getdeliveryroutes/'+params.start+'/'+params.city+'/'+params.margin).get({}, {}, function(routesData){
 
                         var result = [];

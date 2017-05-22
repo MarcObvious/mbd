@@ -43,7 +43,7 @@
                 $scope.dateStart.date = new Date(Date.parse(start));
 
                 $scope.city = $stateParams.city ? $stateParams.city : 'bcn';
-                $scope.city = $stateParams.margin ? $stateParams.margin : '0';
+                $scope.margin = $stateParams.margin ? $stateParams.margin : '10';
 
                 $scope.vm = {};
                 $scope.vm.tableParams = new NGTableParams({count:25, sorting:{route_id:'asc'}}, {data: [],counts:[]});
@@ -53,7 +53,7 @@
                 $scope.routesData = 0;
                 $scope.routesDataA = [];
 
-                routesService.getRoutes({city: $scope.city, start:start}).then( function(data) {
+                routesService.getRoutes({city: $scope.city, start:start,margin:$scope.margin}).then( function(data) {
                     $scope.routesData = 1;
                     $scope.routesDataA = data;
                     $scope.totalItems = $scope.routesDataA.length;
@@ -71,6 +71,7 @@
 
             $scope.mostrar = function() {
                 var start =  $scope.dateStart.date.toJSON().substr(0,10);
+                console.log($scope.margin);
                 $state.go('root.routes', {start: start, city:$scope.city,margin:$scope.margin });
             };
 
