@@ -44,6 +44,7 @@
 
                 $scope.city = $stateParams.city ? $stateParams.city : 'bcn';
                 $scope.margin = $stateParams.margin ? $stateParams.margin : '10';
+                $scope.maxorders = $stateParams.maxorders ? $stateParams.maxorders : '14';
 
                 $scope.vm = {};
                 $scope.vm.tableParams = new NGTableParams({count:25, sorting:{route_id:'asc'}}, {data: [],counts:[]});
@@ -72,7 +73,7 @@
             $scope.mostrar = function() {
                 var start =  $scope.dateStart.date.toJSON().substr(0,10);
                 console.log($scope.margin);
-                $state.go('root.routes', {start: start, city:$scope.city,margin:$scope.margin });
+                $state.go('root.routes', {start: start, city:$scope.city,margin:$scope.margin,maxorders:$scope.maxorders });
             };
 
             $scope.goBack = function(){

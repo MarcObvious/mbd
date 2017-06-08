@@ -29,7 +29,10 @@ angular.module('routesService', [])
                     if(!params.margin){
                         params.margin=10;
                     }
-                    this.api('getdeliveryroutes/'+params.start+'/'+params.city+'/'+params.margin).get({}, {}, function(routesData){
+                    if(!params.maxorders){
+                        params.maxorders=14;
+                    }
+                    this.api('getdeliveryroutes/'+params.start+'/'+params.city+'/'+params.margin+'/'+params.maxorders).get({}, {}, function(routesData){
 
                         var result = [];
                         angular.forEach(routesData.data.good_routes, function (good_routes, index) {
